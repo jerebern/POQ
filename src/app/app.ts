@@ -3,11 +3,12 @@ import { RouterOutlet } from '@angular/router';
 import { DonneesQuebecApiRquest } from './services/donnees-quebec-api-rquest';
 import { lastValueFrom } from 'rxjs';
 import { NameData } from './objects/name-data';
-import { NameDataRow } from './name-data-row/name-data-row';
-
+import { NameDataTable } from './name-data-table/name-data-table';
+import { MatTab, MatTabGroup } from '@angular/material/tabs';
+import { MatIcon } from '@angular/material/icon';
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet,NameDataRow],
+  imports: [RouterOutlet,NameDataTable,MatTab,MatTabGroup,MatIcon],
   templateUrl: './app.html',
   styleUrl: './app.scss',
   providers:[]
@@ -17,9 +18,7 @@ export class App implements OnInit {
     private donneesQuebecApiRequestService : DonneesQuebecApiRquest
   ){}
   protected readonly title = signal('prenomQuebec');
-
   nomsHomme : NameData[] = []
-
   async ngOnInit() {
     this.getNameH()
   }
@@ -43,10 +42,13 @@ export class App implements OnInit {
     }) 
     }
     }
+  
+ 
+
 
   async getNameH(){
     let value = await lastValueFrom(this.donneesQuebecApiRequestService.getPrenomH())
-   this.extractData(this.nomsHomme,value)
+    this.extractData(this.nomsHomme,value)
   }
 
   

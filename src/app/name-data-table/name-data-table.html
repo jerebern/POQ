@@ -1,0 +1,20 @@
+<table mat-table>
+<th mat-header-cell >Nom</th>
+<th mat-header-cell >
+  Utilisation
+</th>
+<th mat-header-cell >
+  Info
+</th>
+@for (item of filteredNoms; track $index) {
+  <tr app-name-data-row
+  [nameData]="item"
+  >
+  </tr>
+}
+<tr>
+  <td mat-cell> <button matButton color="primary" (click)="setnameDataFromPageIndex('PREVIOUS')">Précédent</button></td>
+  <td mat-cell> <button matButton color="primary" (click)="setnameDataFromPageIndex('NEXT')">Suivant</button></td>
+
+</tr>
+</table>

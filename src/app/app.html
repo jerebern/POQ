@@ -1,15 +1,13 @@
+<mat-tab-group>
+  <mat-tab>
+      <ng-template mat-tab-label>
+      Nom Homme
+    </ng-template>
 
-  <table>
-<th>prénom</th>
-<th>années</th>
-@for (item of nomsHomme; track $index) {
-
-  <tr app-name-data-row
-  [nameData]="item"
-  >
-    
-  </tr>
-
+  </mat-tab>
+@if(nomsHomme.length){
+<app-name-data-table [noms]="nomsHomme"></app-name-data-table>
 }
+</mat-tab-group>
 
-  </table>
+
