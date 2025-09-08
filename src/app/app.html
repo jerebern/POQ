@@ -1,13 +1,39 @@
+<h1 class="text-3xl font-bold underline">
+  Prenom Québec!
+</h1>
+<!-- spinner -->
+
+
+<!--  checkbox nom homme nom femme -->
 <mat-tab-group>
   <mat-tab>
       <ng-template mat-tab-label>
       Nom Homme
     </ng-template>
+  @if(nomsHomme.length){
+  <app-name-data-table 
+  (viewEvent)="viewEvent($event)"
+  [noms]="nomsHomme">
+  </app-name-data-table>
+  }
+  @else {
+    <div class="my-[15%]">
+    <h2 class="mx-[35%]">
+      Requête en cour à https://www.donneesquebec.ca/
+    </h2>
+  <mat-progress-bar mode="query"></mat-progress-bar>
+    </div>
 
+  }
+  @for (item of openedNameDataTabs; track $index) {
+      <mat-tab>
+      <ng-template mat-tab-label>
+      {{item.name}}
+    </ng-template>
+      </mat-tab>
+  }
   </mat-tab>
-@if(nomsHomme.length){
-<app-name-data-table [noms]="nomsHomme"></app-name-data-table>
-}
+
 </mat-tab-group>
 
 

@@ -1,4 +1,4 @@
 
 <td mat-Cell>{{nameData?.name}}</td>
 <td mat-Cell>{{utilisationTotal}}</td>
-<td><button mat-cell matButton color="primary">Voir</button></td>
+<td><button (click)="viewClickEvent()" mat-cell matIconButton color="primary"><mat-icon>visibility</mat-icon></button></td>
