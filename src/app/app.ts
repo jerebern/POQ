@@ -7,10 +7,11 @@ import { NameDataTable } from './name-data-table/name-data-table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { NameDataView } from "./name-data-view/name-data-view";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, NameDataTable, MatTabsModule, MatIconModule, MatProgressBarModule],
+  imports: [RouterOutlet, NameDataTable, MatTabsModule, MatIconModule, MatProgressBarModule, NameDataView],
   templateUrl: './app.html',
   styleUrl: './app.scss',
   providers:[]
@@ -27,8 +28,8 @@ export class App implements OnInit {
   }
 
   extractData(data : NameData[],quebecData :any){
-    //Couche 1
     for(let row of quebecData.result.records){
+      let i = 0
       data.push({
         years:[],
         name:row["Prenom/Annee"],
@@ -36,13 +37,14 @@ export class App implements OnInit {
       })
       Object.keys(row).forEach(key=>{
         if(key.length == 4){
-          data[length].years.push({
+          data[data.length-1].years.push({
             digits:key,
             value:row[key]
           })
-
         }
-    }) 
+        i++
+      }) 
+
     }
     }
   findAlreadyOpenTab(nameData : NameData){

@@ -1,0 +1,25 @@
+@if(nameData != null){
+
+
+<mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>Information années</mat-panel-title>
+      <mat-panel-description>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+<mat-list>
+        @for (item of nameData.years; track $index) {
+        <mat-list-item [class]="grayBackground($index)">
+         <span class="flex justify-between ">
+            {{item.digits}}
+            {{item.value}}
+         </span>
+
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        }
+    </mat-list>
+  </mat-expansion-panel>
+</mat-accordion>
+}

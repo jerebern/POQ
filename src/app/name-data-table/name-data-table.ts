@@ -1,10 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NameData } from '../objects/name-data';
 import { NameDataRow } from '../name-data-row/name-data-row';
-import { MatButton, MatButtonModule } from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import {MatTableModule} from '@angular/material/table';
 import { CdkColumnDef } from '@angular/cdk/table';
 
 @Component({
@@ -20,12 +19,10 @@ export class NameDataTable implements OnInit{
 
   filteredNoms : NameData[] = []
   pageIndex : number = 0
-
   ngOnInit(): void {
    this.setnameDataFromPageIndex()
   }
   onViewEvent(nameData : NameData){
-    console.log(nameData)
     this.viewEvent.emit(nameData)
   }
   setnameDataFromPageIndex(action ?: string){
@@ -38,11 +35,11 @@ export class NameDataTable implements OnInit{
         this.pageIndex-=100
       }
     }
-    for(let i = this.pageIndex; i<this.pageIndex + 100; i++){
+    for(let i = this.pageIndex; i<this.pageIndex + 100 && i<this.noms.length; i++){
       this.filteredNoms.push(this.noms[i])
     }
   }
-  grayColor(rowIndex : number){
+  grayBackground(rowIndex : number){
     if(rowIndex%2 == 1){
       return ""
     }
@@ -50,4 +47,8 @@ export class NameDataTable implements OnInit{
       return "grayRow"
     }
   }
+  get strPageInformation(){
+    return this.pageIndex + 1 + " - " + Number(this.pageIndex+100)+ " / "+ this.noms.length
+  }
+
 }

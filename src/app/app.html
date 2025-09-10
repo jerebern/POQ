@@ -1,8 +1,6 @@
 <h1 class="text-3xl font-bold underline">
   Prenom Québec!
 </h1>
-<!-- spinner -->
-
 
 <!--  checkbox nom homme nom femme -->
 <mat-tab-group>
@@ -25,15 +23,18 @@
     </div>
 
   }
+  </mat-tab>
   @for (item of openedNameDataTabs; track $index) {
       <mat-tab>
       <ng-template mat-tab-label>
       {{item.name}}
     </ng-template>
-      </mat-tab>
+    <app-name-data-view
+    [nameData]="item"
+    >
+  </app-name-data-view>
+    </mat-tab>
   }
-  </mat-tab>
-
 </mat-tab-group>
 
 
