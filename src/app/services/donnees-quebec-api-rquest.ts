@@ -15,7 +15,7 @@ export class DonneesQuebecApiRquest {
   getPrenomH(){
     let httpParams = new HttpParams()
     httpParams = httpParams.set("resource_id","039539f5-af55-4d8f-9010-ca718e45c2a5")
-    httpParams = httpParams.set("limit",2)
+    httpParams = httpParams.set("limit",5000)
     httpParams = httpParams.set("records_format","objects")
     return <any>this.http.get(this.baseURL,{params:httpParams})
   }

@@ -1,9 +1,14 @@
 <h1 class="text-3xl font-bold underline">
-  Prenom Québec!
+  Prenom Québec!  
 </h1>
+<div class="my-2">  
+<button (click)="openSearchDialog()" matFab extended color="primary">Recherché<mat-icon>search</mat-icon></button>
+</div>
 
 <!--  checkbox nom homme nom femme -->
-<mat-tab-group>
+<mat-tab-group
+[selectedIndex]="selectedTab.value"
+>
   <mat-tab>
       <ng-template mat-tab-label>
       Nom Homme
@@ -27,7 +32,7 @@
   @for (item of openedNameDataTabs; track $index) {
       <mat-tab>
       <ng-template mat-tab-label>
-      {{item.name}}
+      <label>{{item.name}}</label> <button mat-icon-button (click)="removeTab(item)" class="mr-2"><mat-icon>clear</mat-icon></button>
     </ng-template>
     <app-name-data-view
     [nameData]="item"

@@ -22,7 +22,7 @@ export class NameDataView implements OnInit{
 
   @Input() nameData : NameData|null = null
   yearsData : string[] = []
-  yearsValue : string[] =[]
+  yearsValue : number[] =[]
   ngOnInit(): void {
     this.extractNameData()
   }
