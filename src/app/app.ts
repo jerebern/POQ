@@ -74,26 +74,28 @@ removeTab(nameData: NameData) {
    return Boolean(this.openedNameDataTabs.find(
       (element)=> element == nameData));  
   }
-  viewEvent(nameData : NameData){
-    if(!this.findAlreadyOpenTab(nameData)){
+  openNewTab(nameData ?: NameData){
+   if(nameData){
+    if( !this.findAlreadyOpenTab(nameData)){
       this.openedNameDataTabs.push(nameData)
     }
     this.selectedTab.setValue((this.openedNameDataTabs.findIndex(
     (element) => element == nameData)+1)
 
     )
+   }
+
   }
   async getNameH(){
     let value = await lastValueFrom(this.donneesQuebecApiRequestService.getPrenomH())
     this.extractData(this.nomsHomme,value)
   }
-  openSearchDialog(){
-    let a
-    this.dialog.open(NameSearchDialog,{data:
+ async  openSearchDialog(){
+   let dialog = this.dialog.open(NameSearchDialog,{data:
       this.nomsHomme
-  
-  }
+    }
    )
+  this.openNewTab(await lastValueFrom(dialog.afterClosed()))
   }
   
 }

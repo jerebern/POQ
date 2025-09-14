@@ -11,11 +11,11 @@
 >
   <mat-tab>
       <ng-template mat-tab-label>
-      Nom Homme
+      Liste des noms
     </ng-template>
   @if(nomsHomme.length){
   <app-name-data-table 
-  (viewEvent)="viewEvent($event)"
+  (viewEvent)="openNewTab($event)"
   [noms]="nomsHomme">
   </app-name-data-table>
   }

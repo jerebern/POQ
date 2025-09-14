@@ -2,7 +2,7 @@ import { DialogRef } from '@angular/cdk/dialog';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from '@angular/material/input';
@@ -19,9 +19,8 @@ import { map, Observable, startWith } from 'rxjs';
 })
 export class NameSearchDialog implements OnInit {
 
-  constructor(
-    private dialogRef : DialogRef<NameSearchDialog>
-  ){}
+  constructor(){}
+  readonly dialogRef = inject(MatDialogRef<NameSearchDialog>)
   filteredOptions: Observable<NameData[]> = new Observable();
   data : NameData[] = inject(MAT_DIALOG_DATA);
   searchInputValue = new FormControl()
@@ -31,7 +30,6 @@ export class NameSearchDialog implements OnInit {
       startWith(''),
       map(value => this._filter(value || '')),
     );
-    console.log(this.data)
   }
     private _filter(value ?: string|NameData): NameData[] {
        let filterValue =""
@@ -47,8 +45,8 @@ export class NameSearchDialog implements OnInit {
       return []
   }
 
-  close(){
-    this.dialogRef.close()
+  close(value ?: NameData){
+    this.dialogRef.close(value)
   }
   filterResults(){
     for(let elemement of this.data){
@@ -61,7 +59,7 @@ export class NameSearchDialog implements OnInit {
     }
     return ""
   }
-  view() {
-    this.close()
+  viewClick() {
+    this.close(this.searchInputValue.value)
   }
 }
