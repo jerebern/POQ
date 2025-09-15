@@ -15,6 +15,8 @@ import {MatInputModule} from '@angular/material/input';import {
   MatDialog,
 } from '@angular/material/dialog';
 import { NameSearchDialog } from './name-search-dialog/name-search-dialog';
+import { LocalDbService } from './services/local-db-service';
+import { LocalStorageService } from './services/local-storage-service';
 
 @Component({
   selector: 'app-root',
@@ -27,15 +29,26 @@ export class App implements OnInit {
 
   constructor(
     private donneesQuebecApiRequestService : DonneesQuebecApiRquest,
+    private localDbService : LocalDbService,
+    private localStorageService : LocalStorageService,
     private matDialog : MatDialog
   ){}
   protected readonly title = signal('prenomQuebec');
   readonly dialog = inject(MatDialog);
   openedNameDataTabs : NameData[] = []
-  nomsHomme : NameData[] = []
+  nameData : NameData[] = []
   selectedTab = new FormControl(0)
-  async ngOnInit() {
-    this.getNameH()
+  ngOnInit() {
+    this.validateCache()
+  }
+
+  validateCache(){
+    if(this.localStorageService.validateWebDataBase()){
+      this.getNameDataFromLocal()
+    }
+    else{
+      this.getNameDataFromDonneeQuebecApi(true)
+    }
   }
 
   extractData(data : NameData[],quebecData :any){
@@ -86,13 +99,25 @@ removeTab(nameData: NameData) {
    }
 
   }
-  async getNameH(){
+  async getNameDataFromDonneeQuebecApi(saveResult : boolean){
     let value = await lastValueFrom(this.donneesQuebecApiRequestService.getPrenomH())
-    this.extractData(this.nomsHomme,value)
+    this.extractData(this.nameData,value)
+    if(saveResult){
+      try{
+        this.localDbService.saveNamesData(this.nameData)
+        this.localStorageService.setLastWebdataBaseUpdate() 
+      } 
+      catch{
+        console.error("Erreur à la création de la Base de données")
+      }
+    }
+  }
+  async getNameDataFromLocal(){
+    this.nameData = await this.localDbService.getNamesDatas()
   }
  async  openSearchDialog(){
    let dialog = this.dialog.open(NameSearchDialog,{data:
-      this.nomsHomme
+      this.nameData
     }
    )
   this.openNewTab(await lastValueFrom(dialog.afterClosed()))
