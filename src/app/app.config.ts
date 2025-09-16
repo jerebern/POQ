@@ -3,27 +3,20 @@ import { provideRouter } from '@angular/router';
 import { provideIndexedDb, DBConfig } from 'ngx-indexed-db';
 import { routes } from './app.routes';
 import { provideHttpClient } from '@angular/common/http';
+import { DatabaseName } from './objects/databasesName';
 
 const dbConfig: DBConfig  = {
   name: 'DonneeQuebecNameRecords',
   version: 1,
   objectStoresMeta: [{
-    store: 'NameData',
+    store: DatabaseName.NameData,
     storeConfig: { keyPath: 'id', autoIncrement: true },
     storeSchema: [
-      { name: 'name', keypath: 'name', options: { unique: false } },
+      { name: 'name', keypath: 'name', options: { unique: false }},
+      { name: 'years', keypath: 'years', options: { unique: false }},
+
     ]
   },
-  {
-    store: 'Year',
-    storeConfig: { keyPath: 'id', autoIncrement: true },
-    storeSchema: [
-      { name: 'nameDataId', keypath: 'nameDataId', options: { unique: false } },
-      { name: 'value', keypath: 'value', options: { unique: false } },
-      { name: 'digits', keypath: 'digits', options: { unique: false } }
-      
-    ]
-  }
 ]
 };
 

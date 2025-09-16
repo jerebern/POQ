@@ -17,27 +17,27 @@ import {MatInputModule} from '@angular/material/input';import {
 import { NameSearchDialog } from './name-search-dialog/name-search-dialog';
 import { LocalDbService } from './services/local-db-service';
 import { LocalStorageService } from './services/local-storage-service';
-
+import {MatToolbarModule} from '@angular/material/toolbar';
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, NameDataTable, MatTabsModule, MatIconModule, MatProgressBarModule, NameDataView, MatButtonModule, MatFormFieldModule,MatInputModule],
+  imports: [RouterOutlet, NameDataTable, MatTabsModule, MatIconModule, MatProgressBarModule, NameDataView, MatButtonModule, MatFormFieldModule, MatInputModule, MatToolbarModule],
   templateUrl: './app.html',
   styleUrl: './app.scss',
   providers:[]
 })
 export class App implements OnInit {
-
   constructor(
     private donneesQuebecApiRequestService : DonneesQuebecApiRquest,
     private localDbService : LocalDbService,
     private localStorageService : LocalStorageService,
     private matDialog : MatDialog
   ){}
-  protected readonly title = signal('prenomQuebec');
+  protected readonly title = signal('Prénom Québec');
   readonly dialog = inject(MatDialog);
   openedNameDataTabs : NameData[] = []
   nameData : NameData[] = []
   selectedTab = new FormControl(0)
+  dataSourceStr : string =""
   ngOnInit() {
     this.validateCache()
   }
@@ -57,7 +57,6 @@ export class App implements OnInit {
       data.push({
         years:[],
         name:row["Prenom/Annee"],
-        id:row["_id"]
       })
       Object.keys(row).forEach(key=>{
         if(key.length == 4){
@@ -99,7 +98,12 @@ removeTab(nameData: NameData) {
    }
 
   }
+  refreshClick() {
+    this.getNameDataFromDonneeQuebecApi(true)
+  }
   async getNameDataFromDonneeQuebecApi(saveResult : boolean){
+    this.nameData =[]
+    this.dataSourceStr = "Récupérations des données à https://www.donneesquebec.ca/"
     let value = await lastValueFrom(this.donneesQuebecApiRequestService.getPrenomH())
     this.extractData(this.nameData,value)
     if(saveResult){
@@ -113,11 +117,13 @@ removeTab(nameData: NameData) {
     }
   }
   async getNameDataFromLocal(){
+    this.dataSourceStr = "Récupérations des données en local"
     this.nameData = await this.localDbService.getNamesDatas()
   }
  async  openSearchDialog(){
    let dialog = this.dialog.open(NameSearchDialog,{data:
-      this.nameData
+      this.nameData,
+      width : "30%"
     }
    )
   this.openNewTab(await lastValueFrom(dialog.afterClosed()))

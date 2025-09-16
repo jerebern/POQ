@@ -1,9 +1,20 @@
-<h1 class="text-3xl font-bold underline">
-  Prenom Québec!  
-</h1>
-<div class="my-2">  
-<button (click)="openSearchDialog()" matFab extended color="primary">Recherché<mat-icon>search</mat-icon></button>
-</div>
+<mat-toolbar class="flex justify-between" color="primary">
+    <span>Prénom Québec!  </span> 
+  <span>
+    <button matIconButton [disabled]="!this.nameData.length"
+  (click)="openSearchDialog()"
+  aria-label="Recherché"
+  >
+    <mat-icon>search</mat-icon>
+  </button>
+  <button matIconButton [disabled]="!this.nameData.length"
+  (click)="refreshClick()"
+  aria-label="Rafraichir"
+  >
+    <mat-icon>refresh</mat-icon>
+  </button>
+  </span>
+</mat-toolbar>
 
 <!--  checkbox nom homme nom femme -->
 <mat-tab-group
@@ -22,7 +33,7 @@
   @else {
     <div class="my-[15%]">
     <h2 class="mx-[35%]">
-      Requête en cour à https://www.donneesquebec.ca/
+      {{dataSourceStr}}
     </h2>
   <mat-progress-bar mode="query"></mat-progress-bar>
     </div>
