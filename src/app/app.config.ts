@@ -14,6 +14,8 @@ const dbConfig: DBConfig  = {
     storeSchema: [
       { name: 'name', keypath: 'name', options: { unique: false }},
       { name: 'years', keypath: 'years', options: { unique: false }},
+      { name: 'nameType', keypath: 'nameType', options: { unique: false }},
+
 
     ]
   },

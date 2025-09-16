@@ -15,12 +15,13 @@ export class LocalDbService {
   async resetDatabase(){
     return await lastValueFrom(this.dbService.clear(DatabaseName.NameData))
   }
-  async saveNamesData(namesDatas : NameData[]){
-   await this.resetDatabase()
+  async saveNamesData(namesDatas : NameData[], resetDatabase : boolean){
+   if(resetDatabase){
+      await this.resetDatabase()
+   }
    await lastValueFrom(this.dbService.bulkAdd(DatabaseName.NameData,namesDatas)) 
 
   }
-  //anyYears c'est vraiment terrible comme nom de variable.
   async getNamesDatas() : Promise<any> {
     return await lastValueFrom(this.dbService.getAll("NameData"))
   }

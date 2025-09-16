@@ -47,41 +47,17 @@ export class App implements OnInit {
       this.getNameDataFromLocal()
     }
     else{
-      this.getNameDataFromDonneeQuebecApi(true)
+      this.getNameDataFromDonneeQuebecApi()
     }
   }
 
-  extractData(data : NameData[],quebecData :any){
-    for(let row of quebecData.result.records){
-      let i = 0
-      data.push({
-        years:[],
-        name:row["Prenom/Annee"],
-      })
-      Object.keys(row).forEach(key=>{
-        if(key.length == 4){
-          data[data.length-1].years.push({
-            digits:key,
-            value:this.extractValue(row[key])
-          })
-        }
-        i++
-      }) 
-
-    }
-    }
+  
 removeTab(nameData: NameData) {
   this.openedNameDataTabs.splice(this.openedNameDataTabs.findIndex(
     (element) => element == nameData),1)
 }
 
-  extractValue(value : string){
-    if(value == "< 5"){
-      return 1
-    }
-    else 
-      return Number(value)
-  }
+
   findAlreadyOpenTab(nameData : NameData){
    return Boolean(this.openedNameDataTabs.find(
       (element)=> element == nameData));  
@@ -99,22 +75,19 @@ removeTab(nameData: NameData) {
 
   }
   refreshClick() {
-    this.getNameDataFromDonneeQuebecApi(true)
+    this.getNameDataFromDonneeQuebecApi()
   }
-  async getNameDataFromDonneeQuebecApi(saveResult : boolean){
+  async getNameDataFromDonneeQuebecApi(){
     this.nameData =[]
     this.dataSourceStr = "Récupérations des données à https://www.donneesquebec.ca/"
-    let value = await lastValueFrom(this.donneesQuebecApiRequestService.getPrenomH())
-    this.extractData(this.nameData,value)
-    if(saveResult){
+    await this.donneesQuebecApiRequestService.refreshData()
       try{
-        this.localDbService.saveNamesData(this.nameData)
-        this.localStorageService.setLastWebdataBaseUpdate() 
+        this.getNameDataFromLocal() 
       } 
       catch{
-        console.error("Erreur à la création de la Base de données")
+        console.error("Avec la Base de données")
+        this.localStorageService.clearLocalStorage()
       }
-    }
   }
   async getNameDataFromLocal(){
     this.dataSourceStr = "Récupérations des données en local"

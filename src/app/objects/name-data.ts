@@ -1,6 +1,8 @@
+import { NameType } from "./nameType"
 import { Year } from "./year"
 
 export interface NameData {
     years : Year[]
-    name : string|null
+    name : string|null,
+    nameType : NameType
 }
