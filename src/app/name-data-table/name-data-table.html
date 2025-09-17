@@ -8,12 +8,13 @@
 </button>
 </div>
 <table>
+<th mat-header-cell >Type</th>
 <th mat-header-cell >Nom</th>
 <th mat-header-cell >
   Utilisation
 </th>
 <th mat-header-cell >
-  Info
+  Détail
 </th>
 @for (item of filteredNoms; track $index) {
   <tr app-name-data-row 

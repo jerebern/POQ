@@ -18,6 +18,7 @@ import { NameSearchDialog } from './name-search-dialog/name-search-dialog';
 import { LocalDbService } from './services/local-db-service';
 import { LocalStorageService } from './services/local-storage-service';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import { donneeQuebecRessourceStore } from './objects/donneeQuebecRessourceStore';
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, NameDataTable, MatTabsModule, MatIconModule, MatProgressBarModule, NameDataView, MatButtonModule, MatFormFieldModule, MatInputModule, MatToolbarModule],
@@ -80,12 +81,14 @@ removeTab(nameData: NameData) {
   async getNameDataFromDonneeQuebecApi(){
     this.nameData =[]
     this.dataSourceStr = "Récupérations des données à https://www.donneesquebec.ca/"
-    await this.donneesQuebecApiRequestService.refreshData()
+    await this.donneesQuebecApiRequestService.refreshData(donneeQuebecRessourceStore.prenomHomme,true)
+    await this.donneesQuebecApiRequestService.refreshData(donneeQuebecRessourceStore.prenomFemme,false )
+    this.localStorageService.setLastWebdataBaseUpdate()
       try{
-        this.getNameDataFromLocal() 
+        await this.getNameDataFromLocal() 
       } 
       catch{
-        console.error("Avec la Base de données")
+        console.error("Erreur Avec la Base de données")
         this.localStorageService.clearLocalStorage()
       }
   }

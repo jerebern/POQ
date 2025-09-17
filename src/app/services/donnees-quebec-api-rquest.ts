@@ -26,16 +26,9 @@ export class DonneesQuebecApiRquest {
     return httpParams
   }
 
-  getPrenomsF(){
+  getPrenomsData(offset : number, store : donneeQuebecRessourceStore){
     return <any>this.http.get(this.baseURL,{
-      params:this.getHttpParams(5000,donneeQuebecRessourceStore.prenomFemme)
-    })
-
-  }
-
-  getPrenomsH(offset : number){
-    return <any>this.http.get(this.baseURL,{
-      params:this.getHttpParams(offset,donneeQuebecRessourceStore.prenomHomme)
+      params:this.getHttpParams(offset,store)
     })
 
   }
@@ -69,15 +62,19 @@ export class DonneesQuebecApiRquest {
   
       }
       return data
-      }
+    }
 
-  async refreshData(){
-    let firstRun : boolean = true
+  async refreshData(store : donneeQuebecRessourceStore,resetDataBase : boolean){
+    let type = NameType.FEMME
+    if(store == donneeQuebecRessourceStore.prenomHomme){
+      type = NameType.HOMME
+    }
+    let firstRun = resetDataBase
     let limits = 10000
     for(let offset = 0; offset<limits ; offset+=10000){
-      let records  : any = await lastValueFrom(this.getPrenomsH(offset)) 
+      let records  : any = await lastValueFrom(this.getPrenomsData(offset,store)) 
       limits = records.result.total
-      await this.localDbService.saveNamesData(this.extractData(records,NameType.HOMME),firstRun)
+      await this.localDbService.saveNamesData(this.extractData(records,type),firstRun)
       firstRun = false
     }
   }
