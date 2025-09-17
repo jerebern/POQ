@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "POQ": {
+    "poq": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,6 +17,8 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
+            "baseHref": "https://jerebern.github.io/POQ/",
+            "outputPath":"dist/poq",
             "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
@@ -40,7 +42,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumError": "3MB"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -62,10 +64,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "POQ:build:production"
+              "buildTarget": "poq:build:production"
             },
             "development": {
-              "buildTarget": "POQ:build:development"
+              "buildTarget": "poq:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -85,7 +87,7 @@
             "assets": [
               {
                 "glob": "**/*",
-                "input": "public"
+                "input": "public" 
               }
             ],
             "styles": [
@@ -93,6 +95,9 @@
               "src/styles.scss"
             ]
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy"
         }
       }
     }
