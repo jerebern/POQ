@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "prenomQuebec": {
+    "POQ": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -62,10 +62,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "prenomQuebec:build:production"
+              "buildTarget": "POQ:build:production"
             },
             "development": {
-              "buildTarget": "prenomQuebec:build:development"
+              "buildTarget": "POQ:build:development"
             }
           },
           "defaultConfiguration": "development"
