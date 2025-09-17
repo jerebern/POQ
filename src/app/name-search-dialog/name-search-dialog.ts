@@ -10,6 +10,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { NameData } from '../objects/name-data';
 import { AsyncPipe } from '@angular/common';
 import { map, Observable, startWith } from 'rxjs';
+import { NameType } from '../objects/nameType';
 
 @Component({
   selector: 'app-name-search-dialog',
@@ -40,7 +41,7 @@ export class NameSearchDialog implements OnInit {
         else if(value.name){
          filterValue = value.name
         }
-        return this.data.filter(data => data.name?.toUpperCase().includes(filterValue)).slice(0,100);
+        return this.data.filter(data => data.name?.toUpperCase().includes(filterValue)).slice(0,50);
       }
       return []
   }
@@ -53,6 +54,13 @@ export class NameSearchDialog implements OnInit {
       elemement.name?.match(this.searchInputValue.value)
     }
   }
+  convertNameTypeToLetter(nameType : NameType){
+    if(nameType == NameType.HOMME){
+      return "H"
+    }
+    return "F"
+  }
+
   displayFn(nameData: NameData|null) : string {
     if(nameData!= null && nameData.name){
     return nameData.name
