@@ -45,6 +45,7 @@ export class DonneesQuebecApiRquest {
     let data : NameData[] = []
       for(let row of quebecData.result.records){
         let i = 0
+        let totaltUse : number = 0
         data.push({
           years:[],
           name:row["Prenom/Annee"],
@@ -54,7 +55,7 @@ export class DonneesQuebecApiRquest {
           if(key.length == 4){
             data[data.length-1].years.push({
               digits:key,
-              value:this.extractValue(row[key])
+              value:this.extractValue(row[key])//Faire un total use avec ca 
             })
           }
           i++

@@ -14,7 +14,7 @@ import { CdkColumnDef } from '@angular/cdk/table';
   styleUrl: './name-data-table.scss'
 })
 export class NameDataTable implements OnInit{
-  @Input() noms : NameData[] = []
+  @Input() nameDatas : NameData[] = []
   @Output() viewEvent = new EventEmitter<NameData>();
 
   filteredNoms : NameData[] = []
@@ -35,9 +35,12 @@ export class NameDataTable implements OnInit{
         this.pageIndex-=100
       }
     }
-    for(let i = this.pageIndex; i<this.pageIndex + 100 && i<this.noms.length; i++){
-      this.filteredNoms.push(this.noms[i])
+    for(let i = this.pageIndex; i<this.pageIndex + 100 && i<this.nameDatas.length; i++){
+      this.filteredNoms.push(this.nameDatas[i])
     }
+  }
+  orderTabByNumberOfUse(){
+    this.nameDatas.sort((a,b) => a.years)
   }
   grayBackground(rowIndex : number){
     if(rowIndex%2 == 1){

@@ -19,8 +19,7 @@ export class LocalDbService {
    if(resetDatabase){
       await this.resetDatabase()
    }
-   let abc = await lastValueFrom(this.dbService.bulkAdd(DatabaseName.NameData,namesDatas)) 
-   console.log(abc)
+    await lastValueFrom(this.dbService.bulkAdd(DatabaseName.NameData,namesDatas)) 
   }
   async getNamesDatas() : Promise<any> {
     return await lastValueFrom(this.dbService.getAll("NameData"))
