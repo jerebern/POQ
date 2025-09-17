@@ -5,4 +5,5 @@ export interface NameData {
     years : Year[]
     name : string|null,
     nameType : NameType
+    totalUse : number
 }

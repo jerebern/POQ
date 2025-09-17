@@ -17,8 +17,7 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
-            "baseHref": "https://jerebern.github.io/POQ/",
-            "outputPath":"dist/poq",
+            "outputPath":"dist/POQ",
             "browser": "src/main.ts",
             "polyfills": [
               "zone.js"

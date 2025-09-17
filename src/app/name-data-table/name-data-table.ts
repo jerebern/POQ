@@ -40,7 +40,8 @@ export class NameDataTable implements OnInit{
     }
   }
   orderTabByNumberOfUse(){
-    this.nameDatas.sort((a,b) => a.years)
+    this.nameDatas = this.nameDatas.sort((a,b) => a.totalUse - b.totalUse)
+    this.setnameDataFromPageIndex()
   }
   grayBackground(rowIndex : number){
     if(rowIndex%2 == 1){
@@ -51,7 +52,7 @@ export class NameDataTable implements OnInit{
     }
   }
   get strPageInformation(){
-    return this.pageIndex + 1 + " - " + Number(this.pageIndex+100)+ " / "+ this.noms.length
+    return this.pageIndex + 1 + " - " + Number(this.pageIndex+100)+ " / "+ this.nameDatas.length
   }
 
 }
