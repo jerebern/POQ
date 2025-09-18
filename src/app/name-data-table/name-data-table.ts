@@ -16,7 +16,7 @@ import { CdkColumnDef } from '@angular/cdk/table';
 export class NameDataTable implements OnInit{
   @Input() nameDatas : NameData[] = []
   @Output() viewEvent = new EventEmitter<NameData>();
-
+  
   filteredNoms : NameData[] = []
   pageIndex : number = 0
   ngOnInit(): void {

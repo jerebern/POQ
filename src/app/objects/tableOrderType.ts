@@ -1,0 +1,5 @@
+export enum TableOrderType{
+    HIGHTOLOWTOTAL = "HIGHTOLOWTOTAL",
+    LOWTOHIGHTOTAL = "LOWTOHIGHTOTAL"
+        
+}

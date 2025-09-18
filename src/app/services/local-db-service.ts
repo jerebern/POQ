@@ -1,7 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { NameData } from '../objects/name-data';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
-import { Year } from '../objects/year';
 import { lastValueFrom } from 'rxjs';
 import { DatabaseName } from '../objects/databasesName';
 

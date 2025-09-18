@@ -31,7 +31,6 @@ export class App implements OnInit {
     private donneesQuebecApiRequestService : DonneesQuebecApiRquest,
     private localDbService : LocalDbService,
     private localStorageService : LocalStorageService,
-    private matDialog : MatDialog
   ){}
   protected readonly title = signal('Prénom Québec');
   readonly dialog = inject(MatDialog);
