@@ -1,18 +1,17 @@
-<mat-toolbar class="flex justify-between" color="primary">
-    <span>Prémom Ouvert Québec (POQ)</span> 
+<mat-toolbar class="flex justify-between">
+    <span>Prémom Ouvert Québec (POQ)</span>
   <span>
     <button matIconButton [disabled]="!this.nameData.length"
-  (click)="openSearchDialog()"
-  aria-label="Recherché"
-  >
-    <mat-icon>search</mat-icon>
-  </button>
-  <button matIconButton [disabled]="!this.nameData.length"
-  (click)="refreshClick()"
-  aria-label="Rafraichir"
-  >
-    <mat-icon>refresh</mat-icon>
-  </button>
+      (click)="openSearchDialog()"
+      aria-label="Recherché"
+    >
+      <mat-icon>search</mat-icon>
+    </button>
+    <button matIconButton [disabled]="!this.nameData.length"
+      (click)="refreshClick()" aria-label="Rafraichir"
+    >
+      <mat-icon>refresh</mat-icon>
+    </button>
   </span>
 </mat-toolbar>
 
@@ -25,7 +24,7 @@
       Liste des noms
     </ng-template>
   @if(nameData.length){
-  <app-name-data-table 
+  <app-name-data-table
   (viewEvent)="openNewTab($event)"
   [nameDatas]="nameData">
   </app-name-data-table>
