@@ -16,6 +16,13 @@ export class LocalStorageService {
     }
     return false
   }
+  setDisclamer(){
+    localStorage.setItem("disclamer",new Date().toDateString())
+  }
+  getDisclamer(){
+    return localStorage.getItem("disclamer")
+  }
+
   getLastWebDataBaseUpdate(){
     return localStorage.getItem("lastUpdate")
   }
