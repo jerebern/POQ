@@ -34,7 +34,7 @@ export class DonneesQuebecApiRquest {
   }
 
   extractValue(value : string){
-      if(value == "< 5"){
+      if(value == "<5"){
         return 1
       }
       else 
@@ -47,7 +47,7 @@ export class DonneesQuebecApiRquest {
         let totalUse : number = 0
         data.push({
           years:[],
-          name:row["Prenom/Annee"],
+          name:row["PRENOM"],
           nameType :  nameType,
           totalUse : 0
         })
