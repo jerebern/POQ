@@ -39,9 +39,9 @@ export class App implements OnInit {
   nameData : NameData[] = []
   selectedTab = new FormControl(0)
   dataSourceStr : string =""
-  ngOnInit() {
+  async ngOnInit() {
     if(this.disclamerValue ==null){
-    this.openDisclamer()
+    await this.openDisclamer()
     }
     this.validateCache()
   }
