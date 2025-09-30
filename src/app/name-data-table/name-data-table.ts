@@ -16,7 +16,9 @@ import { CdkColumnDef } from '@angular/cdk/table';
 export class NameDataTable implements OnInit{
   @Input() nameDatas : NameData[] = []
   @Output() viewEvent = new EventEmitter<NameData>();
-  
+  orderType : boolean = false
+  totalUseOrder : boolean = false
+  alphabeticalOrderName : boolean = false
   filteredNoms : NameData[] = []
   pageIndex : number = 0
   ngOnInit(): void {
@@ -25,7 +27,7 @@ export class NameDataTable implements OnInit{
   onViewEvent(nameData : NameData){
     this.viewEvent.emit(nameData)
   }
-  setnameDataFromPageIndex(action ?: string){
+  setnameDataFromPageIndex(action ?: string, resetPageIndex ?: boolean){
     this.filteredNoms = []
     if(action == "NEXT"){
       this.pageIndex += 100
@@ -35,13 +37,62 @@ export class NameDataTable implements OnInit{
         this.pageIndex-=100
       }
     }
+    if(resetPageIndex){
+      this.pageIndex =0
+    }
     for(let i = this.pageIndex; i<this.pageIndex + 100 && i<this.nameDatas.length; i++){
       this.filteredNoms.push(this.nameDatas[i])
     }
   }
-  orderTabByNumberOfUse(){
-    this.nameDatas = this.nameDatas.sort((a,b) => a.totalUse - b.totalUse)
-    this.setnameDataFromPageIndex()
+  orderByTotalOfUse(){
+    if(!this.totalUseOrder){
+      this.nameDatas = this.nameDatas.sort((a,b) => a.totalUse - b.totalUse)
+    }
+    else{
+      this.nameDatas = this.nameDatas.sort((a,b) => b.totalUse - a.totalUse)
+    }
+      this.totalUseOrder = !this.totalUseOrder
+    this.setnameDataFromPageIndex(undefined,true)
+  }
+  compareStringAlphabetical(nameA : string, nameB : string){
+     if (nameA < nameB) {
+       return -1;
+     }
+     if (nameA > nameB) {
+       return 1;
+     }
+
+  // names must be equal
+    return 0;
+  }
+
+  orderByAlphabetical(){
+    this.nameDatas.sort((a, b) => {
+      if(!this.alphabeticalOrderName){
+       return this.compareStringAlphabetical(a.name!.toUpperCase(),b.name!.toUpperCase())    
+      }
+      else{
+       return this.compareStringAlphabetical(b.name!.toUpperCase(),a.name!.toUpperCase())    
+      }
+    }
+
+  )
+    this.alphabeticalOrderName =!this.alphabeticalOrderName
+    this.setnameDataFromPageIndex(undefined,true)
+  }
+  orderByType(){
+    this.nameDatas.sort((a, b) => {
+      if(!this.orderType){
+       return this.compareStringAlphabetical(a.nameType!.toUpperCase(),b.nameType!.toUpperCase())    
+      }
+      else{
+       return this.compareStringAlphabetical(b.nameType!.toUpperCase(),a.nameType!.toUpperCase())    
+      }
+    }
+
+  )
+    this.orderType = !this.orderType
+    this.setnameDataFromPageIndex(undefined,true)
   }
   grayBackground(rowIndex : number){
     if(rowIndex%2 == 1){
