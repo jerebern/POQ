@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { DonneesQuebecApiRquest } from './services/donnees-quebec-api-rquest';
 import { lastValueFrom } from 'rxjs';
 import { NameData } from './objects/name-data';
@@ -19,6 +19,7 @@ import { LocalDbService } from './services/local-db-service';
 import { LocalStorageService } from './services/local-storage-service';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { donneeQuebecRessourceStore } from './objects/donneeQuebecRessourceStore';
+import { DisclamerDialog } from './disclamer-dialog/disclamer-dialog';
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, NameDataTable, MatTabsModule, MatIconModule, MatProgressBarModule, NameDataView, MatButtonModule, MatFormFieldModule, MatInputModule, MatToolbarModule],
@@ -38,9 +39,13 @@ export class App implements OnInit {
   nameData : NameData[] = []
   selectedTab = new FormControl(0)
   dataSourceStr : string =""
-  ngOnInit() {
+  async ngOnInit() {
+    if(this.disclamerValue ==null){
+    await this.openDisclamer()
+    }
     this.validateCache()
   }
+
 
   validateCache(){
     if(this.localStorageService.validateWebDataBase()){
@@ -48,6 +53,18 @@ export class App implements OnInit {
     }
     else{
       this.getNameDataFromDonneeQuebecApi()
+    }
+  }
+  get disclamerValue(){
+    return this.localStorageService.getDisclamer()
+  }
+  async openDisclamer(){
+    let dialog = this.dialog.open(DisclamerDialog, {disableClose:true})
+    if(await lastValueFrom(dialog.afterClosed())){
+      this.localStorageService.setDisclamer()
+    }
+    else{
+      window.location.href = "http://www.google.ca"
     }
   }
 

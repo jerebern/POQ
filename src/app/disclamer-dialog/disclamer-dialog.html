@@ -1,0 +1,28 @@
+<!-- L'IA peut servir a générer ce genre de texte chiant -->
+<div class="bg-gray-100 border border-gray-300 rounded-lg p-6 text-gray-800">
+  <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
+    <span>📢</span> Avis important à l'utilisateur
+  </h2>
+  <p class="mb-3">
+    Les données présentées dans l'application <span class="font-bold">Prénom Ouvert Québec</span> proviennent de la plateforme
+    <a href="https://www.donneesquebec.ca" target="_blank" rel="noopener noreferrer" class="text-blue-600 underline hover:text-blue-800">
+      Données Québec
+    </a>.
+  </p>
+  <p class="mb-3">
+    En utilisant cette application, vous reconnaissez et acceptez les <span class="font-bold">conditions d'utilisation</span> de Données Québec.
+  </p>
+  <p>
+    L'application <span class="font-bold">Prénom Ouvert Québec (POQ)</span> peut altèrer les données originales et ne peut être tenue responsable
+    de leur exactitude, de leur exhaustivité ou de leur représentation. Toute interprétation ou utilisation des données
+    relève de la responsabilité exclusive de l'utilisateur.
+  </p>
+  <div class="flex row justify-center my-4">
+  <button (click)="close(true)" class="mr-2" matButton="tonal" color="primary">
+    Accepter 
+  </button>
+  <button (click)="close(false)" matButton="tonal" color="primary">
+    Quitter
+  </button>
+  </div>
+</div>
