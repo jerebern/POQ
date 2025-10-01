@@ -8,9 +8,9 @@
 </button>
 </div>
 <table>
-<th mat-header-cell >Type</th>
-<th mat-header-cell >Nom</th>
-<th (click)="orderTabByNumberOfUse()" mat-header-cell >
+<th mat-header-cell (click)="orderByType()" class="clickHeader">Type</th>
+<th mat-header-cell class="clickHeader" (click)="orderByAlphabetical()" >Nom</th>
+<th (click)="orderByTotalOfUse()" mat-header-cell class="clickHeader">
   Utilisation
 </th>
 <th mat-header-cell >
