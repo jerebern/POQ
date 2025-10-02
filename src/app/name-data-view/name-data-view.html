@@ -5,22 +5,25 @@
 <mat-accordion>
   <mat-expansion-panel>
     <mat-expansion-panel-header>
-      <mat-panel-title>Information années</mat-panel-title>
+      <mat-panel-title class="font-bold">Information années</mat-panel-title>
       <mat-panel-description>
       </mat-panel-description>
     </mat-expansion-panel-header>
-<mat-list>
-        @for (item of nameData.years; track $index) {
-        <mat-list-item [class]="grayBackground($index)">
-         <span class="flex justify-between ">
+    <table>
+      <th>Année</th>
+      <th class="clickHeader" (click)="orderByUse()">Utilisation</th>
+      @for (item of nameData.years; track $index) {
+        <tr [class]="grayBackground($index)">
+         <td>
             {{item.digits}}
-            {{item.value}}
-         </span>
-
-        </mat-list-item>
-        <mat-divider></mat-divider>
+         </td>
+         <td> {{item.value}}</td>
         }
-    </mat-list>
+        <tr class="font-bold">
+          <td> Total </td>
+          <td> {{nameData.totalUse}}</td>
+        </tr>
+    </table>
   </mat-expansion-panel>
 </mat-accordion>
 }

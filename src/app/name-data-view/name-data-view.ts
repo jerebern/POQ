@@ -10,10 +10,11 @@ import {  LineChart } from 'echarts/charts';
 import { GridComponent, TitleComponent, TooltipComponent } from 'echarts/components';
 import { CanvasRenderer } from 'echarts/renderers';
 import { EChartsCoreOption } from 'echarts/core';
+import { MatTableModule, MatCell } from '@angular/material/table';
 echarts.use([LineChart, GridComponent, CanvasRenderer, TooltipComponent,TitleComponent])
 @Component({
   selector: 'app-name-data-view',
-  imports: [MatListModule, MatDividerModule, MatIconModule,MatExpansionModule,NgxEchartsDirective],
+  imports: [MatListModule, MatDividerModule, MatIconModule, MatExpansionModule, NgxEchartsDirective],
   templateUrl: './name-data-view.html',
   styleUrl: './name-data-view.scss',
   providers: [provideEchartsCore({ echarts })],
@@ -24,6 +25,7 @@ export class NameDataView implements OnInit{
   yearsData : string[] = []
   yearsValue : number[] =[]
   chartOption: EChartsCoreOption|null = null
+  useOrder : boolean = false
   ngOnInit(): void {
     this.extractNameData()
     this.initChart()
@@ -36,6 +38,7 @@ export class NameDataView implements OnInit{
       return "grayRow"
     }
   }
+  
   extractNameData(){
 
     for(let year of this.nameData!.years){
@@ -67,6 +70,14 @@ export class NameDataView implements OnInit{
     };
 
   }
-
+orderByUse(){
+      if(!this.useOrder){
+      this.nameData!.years = this.nameData!.years.sort((a,b) => a.value - b.value)
+    }
+    else{
+      this.nameData!.years = this.nameData!.years.sort((a,b) => b.value - a.value)
+    }
+      this.useOrder = !this.useOrder
+}
 
 }
