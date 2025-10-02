@@ -7,10 +7,10 @@ import { MatExpansionModule} from '@angular/material/expansion';
 import { NgxEchartsDirective, provideEchartsCore } from 'ngx-echarts';
 import * as echarts from 'echarts/core';
 import {  LineChart } from 'echarts/charts';
-import { GridComponent } from 'echarts/components';
+import { GridComponent, TitleComponent, TooltipComponent } from 'echarts/components';
 import { CanvasRenderer } from 'echarts/renderers';
 import { EChartsCoreOption } from 'echarts/core';
-echarts.use([LineChart, GridComponent, CanvasRenderer])
+echarts.use([LineChart, GridComponent, CanvasRenderer, TooltipComponent,TitleComponent])
 @Component({
   selector: 'app-name-data-view',
   imports: [MatListModule, MatDividerModule, MatIconModule,MatExpansionModule,NgxEchartsDirective],
@@ -23,8 +23,10 @@ export class NameDataView implements OnInit{
   @Input() nameData : NameData|null = null
   yearsData : string[] = []
   yearsValue : number[] =[]
+  chartOption: EChartsCoreOption|null = null
   ngOnInit(): void {
     this.extractNameData()
+    this.initChart()
   }
     grayBackground(rowIndex : number){
     if(rowIndex%2 == 1){
@@ -41,21 +43,30 @@ export class NameDataView implements OnInit{
       this.yearsValue.push(year.value)
     }
   }
-  chartOption: EChartsCoreOption = {
-  xAxis: {
-    type: 'category',
-    data: this.yearsData
-  },
-  yAxis: {
-    type: 'value',
-  },
-  series: [
-    {
-      data: this.yearsValue,
-      type: 'line',
-    },
-  ],
-};
+
+  initChart(){
+      this.chartOption = {
+      title: {
+            text: this.nameData!.name + " ( "+ this.nameData!.nameType  + " ) \n Utilisation total depuis 1980 : " + this.nameData!.totalUse,
+      },
+        tooltip: {},
+      xAxis: {
+        type: 'category',
+        data: this.yearsData
+      },
+      yAxis: {
+        type: 'value',
+      },
+      series: [
+        {
+          name:"Année",
+          data: this.yearsValue,
+          type: 'line',
+        },
+      ],
+    };
+
+  }
 
 
 }
