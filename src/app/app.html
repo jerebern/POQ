@@ -43,7 +43,7 @@
   @for (item of openedNameDataTabs; track $index) {
       <mat-tab>
       <ng-template mat-tab-label>
-      <label>{{item.name}}</label> <button mat-icon-button (click)="removeTab(item)" class="mr-2"><mat-icon>clear</mat-icon></button>
+      <label>{{item.name}} ({{item.nameType}})</label> <button mat-icon-button (click)="removeTab(item)" class="mr-2"><mat-icon>clear</mat-icon></button>
     </ng-template>
     <app-name-data-view
     [nameData]="item"
