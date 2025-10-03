@@ -1,73 +1,166 @@
-/* Error: There is no module with the namespace "mat".
- *    ,
- * 10 | /   @include mat.theme-overrides((
- * 11 | |     primary: #005fad,
- * 12 | |     on-primary: #ffffff,
- * 13 | |     primary-container: #d4e3ff,
- * 14 | |     on-primary-container: #001c3a,
- * 15 | |     inverse-primary: #a4c8ff,
- * 16 | |     primary-fixed: #d4e3ff,
- * 17 | |     primary-fixed-dim: #a4c8ff,
- * 18 | |     on-primary-fixed: #001c3a,
- * 19 | |     on-primary-fixed-variant: #004784,
- * 20 | |     secondary: #496080,
- * 21 | |     on-secondary: #ffffff,
- * 22 | |     secondary-container: #d4e3ff,
- * 23 | |     on-secondary-container: #011c39,
- * 24 | |     secondary-fixed: #d4e3ff,
- * 25 | |     secondary-fixed-dim: #b1c8ed,
- * 26 | |     on-secondary-fixed: #011c39,
- * 27 | |     on-secondary-fixed-variant: #314867,
- * 28 | |     tertiary: #7d4a8f,
- * 29 | |     on-tertiary: #ffffff,
- * 30 | |     tertiary-container: #f9d8ff,
- * 31 | |     on-tertiary-container: #320046,
- * 32 | |     tertiary-fixed: #f9d8ff,
- * 33 | |     tertiary-fixed-dim: #edb1ff,
- * 34 | |     on-tertiary-fixed: #320046,
- * 35 | |     on-tertiary-fixed-variant: #633276,
- * 36 | |     background: #fcf8f8,
- * 37 | |     on-background: #1c1b1b,
- * 38 | |     surface: #fcf8f8,
- * 39 | |     surface-dim: #ddd9d9,
- * 40 | |     surface-bright: #fcf8f8,
- * 41 | |     surface-container-lowest: #ffffff,
- * 42 | |     surface-container-low: #f7f3f2,
- * 43 | |     surface-container: #f1edec,
- * 44 | |     surface-container-high: #ebe7e7,
- * 45 | |     surface-container-highest: #e5e2e1,
- * 46 | |     on-surface: #1c1b1b,
- * 47 | |     shadow: #000000,
- * 48 | |     scrim: #000000,
- * 49 | |     surface-tint: #5d5e5f,
- * 50 | |     inverse-surface: #313030,
- * 51 | |     inverse-on-surface: #f4f0ef,
- * 52 | |     outline: #75777a,
- * 53 | |     outline-variant: #c5c7c9,
- * 54 | |     neutral: #797776,
- * 55 | |     neutral10: #1c1b1b,
- * 56 | |     error: #ba1a1a,
- * 57 | |     error-container: #ffdad6,
- * 58 | |     on-error: #ffffff,
- * 59 | |     on-error-container: #410002,
- * 60 | |     surface-variant: #e1e3e5,
- * 61 | |     on-surface-variant: #444749,
- * 62 | |     neutral-variant: #757779,
- * 63 | |     neutral-variant20: #2e3133,
- * 64 | |     inverse-secondary: #b1c8ed,
- * 65 | |     inverse-tertiary: #edb1ff,
- * 66 | |   ));
- *    | '----^
- *    '
- *   tokens.scss 10:3  root stylesheet */
-
-body::before {
-  font-family: "Source Code Pro", "SF Mono", Monaco, Inconsolata, "Fira Mono",
-      "Droid Sans Mono", monospace, monospace;
-  white-space: pre;
-  display: block;
-  padding: 1em;
-  margin-bottom: 1em;
-  border-bottom: 2px solid black;
-  content: 'Error: There is no module with the namespace "mat".\a    \2577 \a 10 \2502  \250c    @include mat.theme-overrides((\a 11 \2502  \2502      primary: #005fad,\a 12 \2502  \2502      on-primary: #ffffff,\a 13 \2502  \2502      primary-container: #d4e3ff,\a 14 \2502  \2502      on-primary-container: #001c3a,\a 15 \2502  \2502      inverse-primary: #a4c8ff,\a 16 \2502  \2502      primary-fixed: #d4e3ff,\a 17 \2502  \2502      primary-fixed-dim: #a4c8ff,\a 18 \2502  \2502      on-primary-fixed: #001c3a,\a 19 \2502  \2502      on-primary-fixed-variant: #004784,\a 20 \2502  \2502      secondary: #496080,\a 21 \2502  \2502      on-secondary: #ffffff,\a 22 \2502  \2502      secondary-container: #d4e3ff,\a 23 \2502  \2502      on-secondary-container: #011c39,\a 24 \2502  \2502      secondary-fixed: #d4e3ff,\a 25 \2502  \2502      secondary-fixed-dim: #b1c8ed,\a 26 \2502  \2502      on-secondary-fixed: #011c39,\a 27 \2502  \2502      on-secondary-fixed-variant: #314867,\a 28 \2502  \2502      tertiary: #7d4a8f,\a 29 \2502  \2502      on-tertiary: #ffffff,\a 30 \2502  \2502      tertiary-container: #f9d8ff,\a 31 \2502  \2502      on-tertiary-container: #320046,\a 32 \2502  \2502      tertiary-fixed: #f9d8ff,\a 33 \2502  \2502      tertiary-fixed-dim: #edb1ff,\a 34 \2502  \2502      on-tertiary-fixed: #320046,\a 35 \2502  \2502      on-tertiary-fixed-variant: #633276,\a 36 \2502  \2502      background: #fcf8f8,\a 37 \2502  \2502      on-background: #1c1b1b,\a 38 \2502  \2502      surface: #fcf8f8,\a 39 \2502  \2502      surface-dim: #ddd9d9,\a 40 \2502  \2502      surface-bright: #fcf8f8,\a 41 \2502  \2502      surface-container-lowest: #ffffff,\a 42 \2502  \2502      surface-container-low: #f7f3f2,\a 43 \2502  \2502      surface-container: #f1edec,\a 44 \2502  \2502      surface-container-high: #ebe7e7,\a 45 \2502  \2502      surface-container-highest: #e5e2e1,\a 46 \2502  \2502      on-surface: #1c1b1b,\a 47 \2502  \2502      shadow: #000000,\a 48 \2502  \2502      scrim: #000000,\a 49 \2502  \2502      surface-tint: #5d5e5f,\a 50 \2502  \2502      inverse-surface: #313030,\a 51 \2502  \2502      inverse-on-surface: #f4f0ef,\a 52 \2502  \2502      outline: #75777a,\a 53 \2502  \2502      outline-variant: #c5c7c9,\a 54 \2502  \2502      neutral: #797776,\a 55 \2502  \2502      neutral10: #1c1b1b,\a 56 \2502  \2502      error: #ba1a1a,\a 57 \2502  \2502      error-container: #ffdad6,\a 58 \2502  \2502      on-error: #ffffff,\a 59 \2502  \2502      on-error-container: #410002,\a 60 \2502  \2502      surface-variant: #e1e3e5,\a 61 \2502  \2502      on-surface-variant: #444749,\a 62 \2502  \2502      neutral-variant: #757779,\a 63 \2502  \2502      neutral-variant20: #2e3133,\a 64 \2502  \2502      inverse-secondary: #b1c8ed,\a 65 \2502  \2502      inverse-tertiary: #edb1ff,\a 66 \2502  \2502    ));\a    \2502  \2514 \2500 \2500 \2500 \2500 ^\a    \2575 \a   tokens.scss 10:3  root stylesheet';
+/* These tokens are generated using https://themes.angular-material.dev/ */
+/* Preview: https://themes.angular-material.dev/?bold-font-weight=700&brand-font-family=Roboto&medium-font-weight=500&plain-font-family=Roboto&regular-font-weight=400&seed-error=%23ff0000&seed-neutral=%23faf9fa&seed-neutral-variant=%23faf9fa&seed-primary=%230064b5&seed-secondary=%23b1c8ed&seed-tertiary=%23edb1ff */
+/* Seed Colors: primary: #0064b5, secondary: #b1c8ed, tertiary: #edb1ff, error: #ff0000, neutral: #faf9fa, neutral-variant: #faf9fa */
+/* Seed Typography: plain-font-family: Roboto, brand-font-family: Roboto, bold-font-weight: 700, medium-font-weight: 500, regular-font-weight: 400 */
+/* Light Theme */
+:root, :host {
+  --mat-sys-primary: #005fad;
+  --mat-sys-on-primary: #ffffff;
+  --mat-sys-primary-container: #d4e3ff;
+  --mat-sys-on-primary-container: #001c3a;
+  --mat-sys-inverse-primary: #a4c8ff;
+  --mat-sys-primary-fixed: #d4e3ff;
+  --mat-sys-primary-fixed-dim: #a4c8ff;
+  --mat-sys-on-primary-fixed: #001c3a;
+  --mat-sys-on-primary-fixed-variant: #004784;
+  --mat-sys-secondary: #496080;
+  --mat-sys-on-secondary: #ffffff;
+  --mat-sys-secondary-container: #d4e3ff;
+  --mat-sys-on-secondary-container: #011c39;
+  --mat-sys-secondary-fixed: #d4e3ff;
+  --mat-sys-secondary-fixed-dim: #b1c8ed;
+  --mat-sys-on-secondary-fixed: #011c39;
+  --mat-sys-on-secondary-fixed-variant: #314867;
+  --mat-sys-tertiary: #7d4a8f;
+  --mat-sys-on-tertiary: #ffffff;
+  --mat-sys-tertiary-container: #f9d8ff;
+  --mat-sys-on-tertiary-container: #320046;
+  --mat-sys-tertiary-fixed: #f9d8ff;
+  --mat-sys-tertiary-fixed-dim: #edb1ff;
+  --mat-sys-on-tertiary-fixed: #320046;
+  --mat-sys-on-tertiary-fixed-variant: #633276;
+  --mat-sys-background: #fcf8f8;
+  --mat-sys-on-background: #1c1b1b;
+  --mat-sys-surface: #fcf8f8;
+  --mat-sys-surface-dim: #ddd9d9;
+  --mat-sys-surface-bright: #fcf8f8;
+  --mat-sys-surface-container-lowest: #ffffff;
+  --mat-sys-surface-container-low: #f7f3f2;
+  --mat-sys-surface-container: #f1edec;
+  --mat-sys-surface-container-high: #ebe7e7;
+  --mat-sys-surface-container-highest: #e5e2e1;
+  --mat-sys-on-surface: #1c1b1b;
+  --mat-sys-shadow: #000000;
+  --mat-sys-scrim: #000000;
+  --mat-sys-surface-tint: #5d5e5f;
+  --mat-sys-inverse-surface: #313030;
+  --mat-sys-inverse-on-surface: #f4f0ef;
+  --mat-sys-outline: #75777a;
+  --mat-sys-outline-variant: #c5c7c9;
+  --mat-sys-error: #ba1a1a;
+  --mat-sys-error-container: #ffdad6;
+  --mat-sys-on-error: #ffffff;
+  --mat-sys-on-error-container: #410002;
+  --mat-sys-surface-variant: #e1e3e5;
+  --mat-sys-on-surface-variant: #444749;
 }
+
+/* Dark Theme */
+.dark {
+  --mat-sys-primary: #a4c8ff;
+  --mat-sys-on-primary: #00315d;
+  --mat-sys-primary-container: #004784;
+  --mat-sys-on-primary-container: #d4e3ff;
+  --mat-sys-inverse-primary: #005fad;
+  --mat-sys-primary-fixed: #d4e3ff;
+  --mat-sys-primary-fixed-dim: #a4c8ff;
+  --mat-sys-on-primary-fixed: #001c3a;
+  --mat-sys-on-primary-fixed-variant: #004784;
+  --mat-sys-secondary: #b1c8ed;
+  --mat-sys-on-secondary: #19314f;
+  --mat-sys-secondary-container: #314867;
+  --mat-sys-on-secondary-container: #d4e3ff;
+  --mat-sys-secondary-fixed: #d4e3ff;
+  --mat-sys-secondary-fixed-dim: #b1c8ed;
+  --mat-sys-on-secondary-fixed: #011c39;
+  --mat-sys-on-secondary-fixed-variant: #314867;
+  --mat-sys-tertiary: #edb1ff;
+  --mat-sys-on-tertiary: #4a1a5d;
+  --mat-sys-tertiary-container: #633276;
+  --mat-sys-on-tertiary-container: #f9d8ff;
+  --mat-sys-tertiary-fixed: #f9d8ff;
+  --mat-sys-tertiary-fixed-dim: #edb1ff;
+  --mat-sys-on-tertiary-fixed: #320046;
+  --mat-sys-on-tertiary-fixed-variant: #633276;
+  --mat-sys-background: #141313;
+  --mat-sys-on-background: #e5e2e1;
+  --mat-sys-surface: #141313;
+  --mat-sys-surface-dim: #141313;
+  --mat-sys-surface-bright: #3a3939;
+  --mat-sys-surface-container-lowest: #0e0e0e;
+  --mat-sys-surface-container-low: #1c1b1b;
+  --mat-sys-surface-container: #201f1f;
+  --mat-sys-surface-container-high: #2a2a2a;
+  --mat-sys-surface-container-highest: #353434;
+  --mat-sys-on-surface: #e5e2e1;
+  --mat-sys-shadow: #000000;
+  --mat-sys-scrim: #000000;
+  --mat-sys-surface-tint: #c7c6c7;
+  --mat-sys-inverse-surface: #e5e2e1;
+  --mat-sys-inverse-on-surface: #313030;
+  --mat-sys-outline: #8e9193;
+  --mat-sys-outline-variant: #444749;
+  --mat-sys-error: #ffb4ab;
+  --mat-sys-error-container: #93000a;
+  --mat-sys-on-error: #690005;
+  --mat-sys-on-error-container: #ffdad6;
+  --mat-sys-surface-variant: #444749;
+  --mat-sys-on-surface-variant: #c5c7c9;
+}
+
+:root, :host {
+  --mat-sys-brand-font-family: Roboto;
+  --mat-sys-plain-font-family: Roboto;
+  --mat-sys-bold-font-weight: 700;
+  --mat-sys-medium-font-weight: 500;
+  --mat-sys-regular-font-weight: 400;
+  --mat-sys-headline-large-font: var(--mat-sys-brand-font-family);
+  --mat-sys-headline-medium-font: var(--mat-sys-brand-font-family);
+  --mat-sys-headline-small-font: var(--mat-sys-brand-font-family);
+  --mat-sys-display-large-font: var(--mat-sys-brand-font-family);
+  --mat-sys-display-medium-font: var(--mat-sys-brand-font-family);
+  --mat-sys-display-small-font: var(--mat-sys-brand-font-family);
+  --mat-sys-title-large-font: var(--mat-sys-brand-font-family);
+  --mat-sys-body-large: var(--mat-sys-body-large-weight) var(--mat-sys-body-large-size)/var(--mat-sys-body-large-line-height) var(--mat-sys-body-large-font);
+  --mat-sys-body-medium: var(--mat-sys-body-medium-weight) var(--mat-sys-body-medium-size)/var(--mat-sys-body-medium-line-height) var(--mat-sys-body-medium-font);
+  --mat-sys-body-small: var(--mat-sys-body-small-weight) var(--mat-sys-body-small-size)/var(--mat-sys-body-small-line-height) var(--mat-sys-body-small-font);
+  --mat-sys-label-large: var(--mat-sys-label-large-weight) var(--mat-sys-label-large-size)/var(--mat-sys-label-large-line-height) var(--mat-sys-label-large-font);
+  --mat-sys-label-medium: var(--mat-sys-label-medium-weight) var(--mat-sys-label-medium-size)/var(--mat-sys-label-medium-line-height) var(--mat-sys-label-medium-font);
+  --mat-sys-label-small: var(--mat-sys-label-small-weight) var(--mat-sys-label-small-size)/var(--mat-sys-label-small-line-height) var(--mat-sys-label-small-font);
+  --mat-sys-title-large: var(--mat-sys-title-large-weight) var(--mat-sys-title-large-size)/var(--mat-sys-title-large-line-height) var(--mat-sys-title-large-font);
+  --mat-sys-title-medium: var(--mat-sys-title-medium-weight) var(--mat-sys-title-medium-size)/var(--mat-sys-title-medium-line-height) var(--mat-sys-title-medium-font);
+  --mat-sys-title-small: var(--mat-sys-title-small-weight) var(--mat-sys-title-small-size)/var(--mat-sys-title-small-line-height) var(--mat-sys-title-small-font);
+  --mat-sys-headline-large: var(--mat-sys-headline-large-weight) var(--mat-sys-headline-large-size)/var(--mat-sys-headline-large-line-height) var(--mat-sys-headline-large-font);
+  --mat-sys-headline-medium: var(--mat-sys-headline-medium-weight) var(--mat-sys-headline-medium-size)/var(--mat-sys-headline-medium-line-height) var(--mat-sys-headline-medium-font);
+  --mat-sys-headline-small: var(--mat-sys-headline-small-weight) var(--mat-sys-headline-small-size)/var(--mat-sys-headline-small-line-height) var(--mat-sys-headline-small-font);
+  --mat-sys-display-large: var(--mat-sys-display-large-weight) var(--mat-sys-display-large-size)/var(--mat-sys-display-large-line-height) var(--mat-sys-display-large-font);
+  --mat-sys-display-medium: var(--mat-sys-display-medium-weight) var(--mat-sys-display-medium-size)/var(--mat-sys-display-medium-line-height) var(--mat-sys-display-medium-font);
+  --mat-sys-display-small: var(--mat-sys-display-small-weight) var(--mat-sys-display-small-size)/var(--mat-sys-display-small-line-height) var(--mat-sys-display-small-font);
+  --mat-sys-body-large-font: var(--mat-sys-plain-font-family);
+  --mat-sys-body-medium-font: var(--mat-sys-plain-font-family);
+  --mat-sys-body-small-font: var(--mat-sys-plain-font-family);
+  --mat-sys-label-large-font: var(--mat-sys-plain-font-family);
+  --mat-sys-label-medium-font: var(--mat-sys-plain-font-family);
+  --mat-sys-label-small-font: var(--mat-sys-plain-font-family);
+  --mat-sys-title-medium-font: var(--mat-sys-plain-font-family);
+  --mat-sys-title-small-font: var(--mat-sys-plain-font-family);
+  --mat-sys-label-large-weight-prominent: var(--mat-sys-bold-font-weight);
+  --mat-sys-label-medium-weight-prominent: var(--mat-sys-bold-font-weight);
+  --mat-sys-label-large-weight: var(--mat-sys-medium-font-weight);
+  --mat-sys-label-medium-weight: var(--mat-sys-medium-font-weight);
+  --mat-sys-label-small-weight: var(--mat-sys-medium-font-weight);
+  --mat-sys-title-medium-weight: var(--mat-sys-medium-font-weight);
+  --mat-sys-title-small-weight: var(--mat-sys-medium-font-weight);
+  --mat-sys-body-large-weight: var(--mat-sys-regular-font-weight);
+  --mat-sys-body-medium-weight: var(--mat-sys-regular-font-weight);
+  --mat-sys-body-small-weight: var(--mat-sys-regular-font-weight);
+  --mat-sys-display-large-weight: var(--mat-sys-regular-font-weight);
+  --mat-sys-display-medium-weight: var(--mat-sys-regular-font-weight);
+  --mat-sys-display-small-weight: var(--mat-sys-regular-font-weight);
+  --mat-sys-headline-large-weight: var(--mat-sys-regular-font-weight);
+  --mat-sys-headline-medium-weight: var(--mat-sys-regular-font-weight);
+  --mat-sys-headline-small-weight: var(--mat-sys-regular-font-weight);
+  --mat-sys-title-large-weight: var(--mat-sys-regular-font-weight);
+}
+
+/*# sourceMappingURL=tokens.css.map */

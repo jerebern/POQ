@@ -1,6 +1,6 @@
 @use "@angular/material" as mat;
 @use "./styles/_theme-colors.scss" as theme-colors;
-@import "tailwindcss";
+@use "tailwindcss";
 
 /* Make sure to import fonts in `<head>` of html */
 /*
