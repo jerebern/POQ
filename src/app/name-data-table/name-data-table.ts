@@ -8,7 +8,7 @@ import { CdkColumnDef } from '@angular/cdk/table';
 
 @Component({
   selector: 'app-name-data-table',
-  imports: [NameDataRow,MatFormFieldModule,MatIconModule,MatButtonModule],
+  imports: [NameDataRow,MatFormFieldModule,MatIconModule,MatButtonModule,],
   providers:[CdkColumnDef],
   templateUrl: './name-data-table.html',
   styleUrl: './name-data-table.scss'

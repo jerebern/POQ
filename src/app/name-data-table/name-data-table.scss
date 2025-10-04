@@ -5,10 +5,14 @@ table{
     background-color: #e8ebe9;
 }
 
-tr app-name-data-row {
-    height: 5px;
+.row{
+    height: 45px;
 }
 
 .clickHeader{
-    cursor: pointer
+    cursor: pointer;
+}
+
+table thead tr th {
+  border-bottom: 1px solid var(--noir, black);
 }

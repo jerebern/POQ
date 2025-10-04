@@ -8,17 +8,26 @@
   </button>
 </div>
 <table>
-<th mat-header-cell (click)="orderByType()" class="clickHeader">Type</th>
-<th mat-header-cell class="clickHeader" (click)="orderByAlphabetical()" >Nom</th>
-<th (click)="orderByTotalOfUse()" mat-header-cell class="clickHeader">
-  Utilisation
-</th>
-<th mat-header-cell >
-  Détail
-</th>
+  <thead>
+    <tr>
+      <th mat-header-cell (click)="orderByType()" class="clickHeader bg-neutral-50 hover:bg-neutral-200 font-bold">
+        Type
+      </th>
+      <th mat-header-cell class="clickHeader bg-neutral-50 hover:bg-neutral-200 font-bold" (click)="orderByAlphabetical()">
+        Nom
+      </th>
+      <th (click)="orderByTotalOfUse()" mat-header-cell class="clickHeader bg-neutral-50 hover:bg-neutral-200 font-bold">
+        Utilisation
+      </th>
+      <th mat-header-cell >
+        Détail
+      </th>
+    </tr>
+</thead>
+
 @for (item of filteredNoms; track $index) {
   <tr app-name-data-row
-    [class]="grayBackground($index)"
+    [class]="grayBackground($index) + ' row'"
     [nameData]="item"
     (viewEvent)="onViewEvent($event)"
   >
