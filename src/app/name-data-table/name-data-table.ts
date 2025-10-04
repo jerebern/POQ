@@ -11,6 +11,8 @@ import {MatSelectModule} from '@angular/material/select';
 import { NameType } from '../../enum/nameType';
 import { TableFilterType } from '../../enum/table-filter-type';
 
+import replaceSpecialCharacters from 'replace-special-characters';
+ 
 @Component({
   selector: 'app-name-data-table',
   imports: [NameDataRow,MatIconModule,MatButtonModule,MatFormFieldModule, MatSelectModule, MatInputModule, FormsModule,ReactiveFormsModule],
@@ -31,6 +33,7 @@ export class NameDataTable implements OnInit{
   pageIndex : number = 0
   typeFormControl = new FormControl("ALL")
   filterdNameFormControl = new FormControl()
+  filterdNameWihtoutSpecialChar : string = ""
   selectedFilters : TableFilterType[] = []
   typeHommeIndex : number = 0
   typeFemmeIndex : number = 0
@@ -56,6 +59,7 @@ export class NameDataTable implements OnInit{
           this.removeFilter(TableFilterType.NAME)
         }
         else{
+          this.filterdNameWihtoutSpecialChar = replaceSpecialCharacters(value)
           this.addFilter(TableFilterType.NAME)
         }
       this.setnameDataFromPageIndex(undefined,true)
@@ -109,7 +113,6 @@ export class NameDataTable implements OnInit{
       this.filteredNoms.push(this.nameDatas[index])
       }
       if(this.filteredNoms.length > 99){
-        console.log(index)
         break
       }
       index++
@@ -125,17 +128,22 @@ export class NameDataTable implements OnInit{
   }
 
   applyFilter(name : NameData){
+    let successCondition : number = 0
     if(this.selectedFilters.length == 0){
       return true
     }
     else{
+      //pourrait être simplifier
       for( let filter of this.selectedFilters){
         if(filter == TableFilterType.TYPE && name.nameType == this.typeFormControl.value){ 
-          return true
+        successCondition++
         }
-        else if(filter == TableFilterType.NAME && name.name?.toUpperCase().match(this.filterdNameFormControl.value.toUpperCase())) {
-          return true
+       if(filter == TableFilterType.NAME && name.name?.toUpperCase().match(this.filterdNameWihtoutSpecialChar.toUpperCase())) {
+        successCondition++  
         }
+      }
+      if(successCondition == this.selectedFilters.length){
+        return true
       }
     }
     return false
