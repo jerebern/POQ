@@ -21,27 +21,48 @@ import { TableFilterType } from '../../enum/table-filter-type';
 export class NameDataTable implements OnInit{
   @Input() nameDatas : NameData[] = []
   @Output() viewEvent = new EventEmitter<NameData>();
+  changeTypeIndex : number = 0
   nameDatasOG : NameData[] = []
   orderType : boolean = false
   totalUseOrder : boolean = false
   alphabeticalOrderName : boolean = false
   filteredNoms : NameData[] = []
+  nameDataArrayIndex : number = 0
   pageIndex : number = 0
-  typeFormControl = new FormControl()
+  typeFormControl = new FormControl("ALL")
+  filterdNameFormControl = new FormControl()
   selectedFilters : TableFilterType[] = []
+  typeHommeIndex : number = 0
+  typeFemmeIndex : number = 0
   ngOnInit(): void {
     //structureClone permets une copie complète en mémoire, sinon JS utilise des pointeur 
     this.nameDatasOG = structuredClone(this.nameDatas)
+    this.typeFemmeIndex = this.nameDatas.findIndex((element)=> element.nameType == NameType.FEMME)
+    this.typeHommeIndex = this.nameDatas.findIndex((element)=> element.nameType == NameType.HOMME)
     this.typeFormControl.valueChanges.subscribe(
-      value=>{
+      (value)=>{
         if(value != "ALL"){
           this.addFilter(TableFilterType.TYPE)
         }
         else{
           this.removeFilter(TableFilterType.TYPE)
         }
+        this.setnameDataFromPageIndex(undefined,true)
       }
     )
+    this.filterdNameFormControl.valueChanges.subscribe(
+      value=>{
+        if(value == null){
+          this.removeFilter(TableFilterType.NAME)
+        }
+        else{
+          this.addFilter(TableFilterType.NAME)
+        }
+      this.setnameDataFromPageIndex(undefined,true)
+
+      }
+    )
+
    this.setnameDataFromPageIndex()
   }
   onViewEvent(nameData : NameData){
@@ -51,35 +72,56 @@ export class NameDataTable implements OnInit{
     if(!this.selectedFilters.find((element) => element == filterType)){
       this.selectedFilters.push(filterType)
     }
-    this.setnameDataFromPageIndex(undefined,true)
+      if(filterType == TableFilterType.TYPE){
+        if(this.typeFormControl.value == NameType.FEMME){
+          this.nameDataArrayIndex = Number(this.typeFemmeIndex) //Constructeur number pour éviter les pointeur
+        }
+        else{
+          this.nameDataArrayIndex = Number(this.typeHommeIndex)
+        }
+      }
   }
   removeFilter(filterType :TableFilterType){
     this.selectedFilters =  this.selectedFilters.splice(this.selectedFilters.findIndex((element)=> element == filterType),0)
-    this.setnameDataFromPageIndex(undefined,true)
+    this.nameDataArrayIndex = 0
+
   }
   setnameDataFromPageIndex(action ?: string, resetPageIndex ?: boolean){
     console.log(this.selectedFilters)
     this.filteredNoms = []
-    let index = 0;
     if(action == "NEXT"){
-      this.pageIndex += 100
+      this.nameDataArrayIndex += 100
     }
     else if (action == "PREVIOUS"){
-      if(this.pageIndex != 0){
-        this.pageIndex-=100
+      if(this.nameDataArrayIndex != 0){
+        this.nameDataArrayIndex-=100
       }
     }
     if(resetPageIndex){
-      this.pageIndex =0
+      this.pageIndex = 1
     }
-
-    while(index < this.pageIndex + 100 && index < this.nameDatas.length && this.filteredNoms.length != 99){
+    else{
+      this.pageIndex++
+    }
+    let index = structuredClone(this.nameDataArrayIndex)
+    while(index < this.nameDatas.length){
       if(this.applyFilter(this.nameDatas[index])){
       this.filteredNoms.push(this.nameDatas[index])
       }
+      if(this.filteredNoms.length > 99){
+        console.log(index)
+        break
+      }
       index++
     }
+  }
 
+  resetIndexFromFilter(){
+    
+  }
+
+  resetNameData(){
+    this.nameDatas = structuredClone(this.nameDatasOG)
   }
 
   applyFilter(name : NameData){
@@ -87,21 +129,19 @@ export class NameDataTable implements OnInit{
       return true
     }
     else{
-      console.log(this.typeFormControl.value + " vs " + name.nameType)
-    for( let filter of this.selectedFilters){
-      switch(filter){
-        case TableFilterType.TYPE:
-          if(name.nameType == this.typeFormControl.value){
-            console.log(name)
-            return true
-          }
-        break;
+      for( let filter of this.selectedFilters){
+        if(filter == TableFilterType.TYPE && name.nameType == this.typeFormControl.value){ 
+          return true
+        }
+        else if(filter == TableFilterType.NAME && name.name?.toUpperCase().match(this.filterdNameFormControl.value.toUpperCase())) {
+          return true
+        }
       }
-    }
     }
     return false
   }
   orderByTotalOfUse(){
+    this.resetNameData()
     if(!this.totalUseOrder){
       this.nameDatas = this.nameDatas.sort((a,b) => a.totalUse - b.totalUse)
     }
@@ -124,6 +164,7 @@ export class NameDataTable implements OnInit{
   }
 
   orderByAlphabetical(){
+    this.resetNameData()
     this.nameDatas.sort((a, b) => {
       if(!this.alphabeticalOrderName){
        return this.compareStringAlphabetical(a.name!.toUpperCase(),b.name!.toUpperCase())    
@@ -138,6 +179,7 @@ export class NameDataTable implements OnInit{
     this.setnameDataFromPageIndex(undefined,true)
   }
   orderByType(){
+    this.resetNameData()
     this.nameDatas.sort((a, b) => {
       if(!this.orderType){
        return this.compareStringAlphabetical(a.nameType!.toUpperCase(),b.nameType!.toUpperCase())    
@@ -149,7 +191,9 @@ export class NameDataTable implements OnInit{
 
   )
     this.orderType = !this.orderType
-    this.setnameDataFromPageIndex(undefined,true)
+    this.setnameDataFromPageIndex(
+      
+    )
   }
   grayBackground(rowIndex : number){
     if(rowIndex%2 == 1){
@@ -158,9 +202,6 @@ export class NameDataTable implements OnInit{
     else{
       return "grayRow"
     }
-  }
-  get strPageInformation(){
-    return this.pageIndex + 1 + " - " + Number(this.pageIndex+100)+ " / "+ this.nameDatas.length
   }
 
 }
