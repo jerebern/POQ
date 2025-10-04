@@ -24,7 +24,17 @@
       </th>
     </tr>
 </thead>
-
+<tr>
+  <td>
+  <mat-form-field>
+    <mat-select [formControl]="typeFormControl">
+      <mat-option value="ALL">Tout</mat-option>
+      <mat-option value="HOMME">Homme</mat-option>
+      <mat-option value="FEMME">Femme</mat-option>
+    </mat-select>
+  </mat-form-field>
+  </td>
+</tr>
 @for (item of filteredNoms; track $index) {
   <tr app-name-data-row
     [class]="grayBackground($index) + ' row'"

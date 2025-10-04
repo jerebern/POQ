@@ -14,5 +14,14 @@ table{
 }
 
 table thead tr th {
+  height: 45px;
   border-bottom: 1px solid var(--noir, black);
+}
+table tr td mat-form-field{
+    width: 100%;
+}
+
+.filterForm{
+    width: 100%;
+
 }
