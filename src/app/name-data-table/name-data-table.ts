@@ -42,6 +42,12 @@ export class NameDataTable implements OnInit{
     this.nameDatasOG = structuredClone(this.nameDatas)
     this.typeFemmeIndex = this.nameDatas.findIndex((element)=> element.nameType == NameType.FEMME)
     this.typeHommeIndex = this.nameDatas.findIndex((element)=> element.nameType == NameType.HOMME)
+
+   this.initFormsSub()
+   this.setnameDataFromPageIndex()
+  }
+
+  initFormsSub(){
     this.typeFormControl.valueChanges.subscribe(
       (value)=>{
         if(value != "ALL"){
@@ -55,7 +61,7 @@ export class NameDataTable implements OnInit{
     )
     this.filterdNameFormControl.valueChanges.subscribe(
       value=>{
-        if(value == null){
+        if(value == null || value == ""){
           this.removeFilter(TableFilterType.NAME)
         }
         else{
@@ -66,8 +72,6 @@ export class NameDataTable implements OnInit{
 
       }
     )
-
-   this.setnameDataFromPageIndex()
   }
   onViewEvent(nameData : NameData){
     this.viewEvent.emit(nameData)
@@ -87,6 +91,7 @@ export class NameDataTable implements OnInit{
   }
   removeFilter(filterType :TableFilterType){
     this.selectedFilters =  this.selectedFilters.splice(this.selectedFilters.findIndex((element)=> element == filterType),0)
+    console.log(this.selectedFilters)
     this.nameDataArrayIndex = 0
 
   }
@@ -156,7 +161,7 @@ export class NameDataTable implements OnInit{
     else{
       this.nameDatas = this.nameDatas.sort((a,b) => b.totalUse - a.totalUse)
     }
-      this.totalUseOrder = !this.totalUseOrder
+    this.totalUseOrder = !this.totalUseOrder
     this.setnameDataFromPageIndex(undefined,true)
   }
   compareStringAlphabetical(nameA : string, nameB : string){
