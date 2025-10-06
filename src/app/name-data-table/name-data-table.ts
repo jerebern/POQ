@@ -10,7 +10,7 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatSelectModule} from '@angular/material/select';
 import { NameType } from '../../enum/nameType';
 import { TableFilterType } from '../../enum/table-filter-type';
-
+import { query } from '@chronicstone/array-query'
 import replaceSpecialCharacters from 'replace-special-characters';
  
 @Component({
@@ -39,7 +39,7 @@ export class NameDataTable implements OnInit{
   typeFemmeIndex : number = 0
   ngOnInit(): void {
     //structureClone permets une copie complète en mémoire, sinon JS utilise des pointeur 
-    this.nameDatasOG = structuredClone(this.nameDatas)
+    this.nameDatasOG = JSON.parse(JSON.stringify(this.nameDatas))
     this.typeFemmeIndex = this.nameDatas.findIndex((element)=> element.nameType == NameType.FEMME)
     this.typeHommeIndex = this.nameDatas.findIndex((element)=> element.nameType == NameType.HOMME)
 
@@ -122,6 +122,8 @@ export class NameDataTable implements OnInit{
       }
       index++
     }
+    console.log(this.nameDatas.length)
+    console.log(this.nameDatas.findIndex((element)=> element.nameType == NameType.FEMME))
   }
 
   resetIndexFromFilter(){
@@ -129,7 +131,7 @@ export class NameDataTable implements OnInit{
   }
 
   resetNameData(){
-    this.nameDatas = structuredClone(this.nameDatasOG)
+   // this.nameDatas = JSON.parse(JSON.stringify((this.nameDatasOG)))
   }
 
   applyFilter(name : NameData){
