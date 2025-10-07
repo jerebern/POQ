@@ -9,9 +9,12 @@ export class LocalStorageService {
   validateWebDataBase() : boolean{
     let storeValue = this.getLastWebDataBaseUpdate()
     let lastUpdate : Date
+    let futurDate = new Date()
+    futurDate.setDate(futurDate.getDate() + 7)
+
     if(storeValue != null){
       lastUpdate = new Date(storeValue)
-      if(new Date().getDate() < lastUpdate.getDate() + 7){
+      if(futurDate < lastUpdate){
         return true
       }
     }
@@ -32,7 +35,6 @@ export class LocalStorageService {
 
   getLastUpdateDate(){
     let updateDate = new Date(localStorage.getItem("lastUpdate")?.toString() ?? "")
-    console.log(updateDate)
     return updateDate.getDate() + "/" + (updateDate.getMonth()+1) + "/" + updateDate.getFullYear()
   }
 

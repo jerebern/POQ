@@ -32,7 +32,7 @@ export class App implements OnInit {
   constructor(
     private donneesQuebecApiRequestService : DonneesQuebecApiRquest,
     private localDbService : LocalDbService,
-    private localStorageService : LocalStorageService,
+    public localStorageService : LocalStorageService,
   ){}
 
   protected readonly title = signal('Prénom Québec');
@@ -48,7 +48,6 @@ export class App implements OnInit {
     await this.openDisclamer()
     }
     this.validateCache()
-    this.lastUpdate = this.localStorageService.getLastUpdateDate() ?? ""
   }
 
   validateCache(){
@@ -101,7 +100,6 @@ removeTab(nameData: NameData) {
 
   refreshClick() {
     this.getNameDataFromDonneeQuebecApi()
-    this.lastUpdate = this.localStorageService.getLastUpdateDate() ?? ""
   }
 
   async getNameDataFromDonneeQuebecApi(){
