@@ -6,6 +6,7 @@ import { NameData } from './objects/name-data';
 import { NameDataTable } from './name-data-table/name-data-table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
+import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { NameDataView } from "./name-data-view/name-data-view";
 import { MatButtonModule } from "@angular/material/button";
@@ -22,7 +23,7 @@ import { donneeQuebecRessourceStore } from './objects/donneeQuebecRessourceStore
 import { DisclamerDialog } from './disclamer-dialog/disclamer-dialog';
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, NameDataTable, MatTabsModule, MatIconModule, MatProgressBarModule, NameDataView, MatButtonModule, MatFormFieldModule, MatInputModule, MatToolbarModule],
+  imports: [RouterOutlet, NameDataTable, MatTabsModule, MatIconModule, MatProgressBarModule, NameDataView, MatButtonModule, MatFormFieldModule, MatInputModule, MatToolbarModule, MatTooltipModule],
   templateUrl: './app.html',
   styleUrl: './app.scss',
   providers:[]
@@ -33,19 +34,22 @@ export class App implements OnInit {
     private localDbService : LocalDbService,
     private localStorageService : LocalStorageService,
   ){}
+
   protected readonly title = signal('Prénom Québec');
   readonly dialog = inject(MatDialog);
   openedNameDataTabs : NameData[] = []
   nameData : NameData[] = []
   selectedTab = new FormControl(0)
-  dataSourceStr : string =""
+  dataSourceStr : string = ""
+  lastUpdate : string = ""
+
   async ngOnInit() {
-    if(this.disclamerValue ==null){
+    if(this.disclamerValue == null){
     await this.openDisclamer()
     }
     this.validateCache()
+    this.lastUpdate = this.localStorageService.getLastUpdateDate() ?? ""
   }
-
 
   validateCache(){
     if(this.localStorageService.validateWebDataBase()){
@@ -55,9 +59,11 @@ export class App implements OnInit {
       this.getNameDataFromDonneeQuebecApi()
     }
   }
+
   get disclamerValue(){
     return this.localStorageService.getDisclamer()
   }
+
   async openDisclamer(){
     let dialog = this.dialog.open(DisclamerDialog, {disableClose:true})
     if(await lastValueFrom(dialog.afterClosed())){
@@ -68,7 +74,7 @@ export class App implements OnInit {
     }
   }
 
-  
+
 removeTab(nameData: NameData) {
   this.openedNameDataTabs.splice(this.openedNameDataTabs.findIndex(
     (element) => element == nameData),1)
@@ -77,8 +83,9 @@ removeTab(nameData: NameData) {
 
   findAlreadyOpenTab(nameData : NameData){
    return Boolean(this.openedNameDataTabs.find(
-      (element)=> element == nameData));  
+      (element)=> element == nameData));
   }
+
   openNewTab(nameData ?: NameData){
    if(nameData){
     if( !this.findAlreadyOpenTab(nameData)){
@@ -91,9 +98,12 @@ removeTab(nameData: NameData) {
    }
 
   }
+
   refreshClick() {
     this.getNameDataFromDonneeQuebecApi()
+    this.lastUpdate = this.localStorageService.getLastUpdateDate() ?? ""
   }
+
   async getNameDataFromDonneeQuebecApi(){
     this.nameData =[]
     this.dataSourceStr = "Récupérations des données à https://www.donneesquebec.ca/"
@@ -101,8 +111,8 @@ removeTab(nameData: NameData) {
     await this.donneesQuebecApiRequestService.refreshData(donneeQuebecRessourceStore.prenomFemme,false )
     this.localStorageService.setLastWebdataBaseUpdate()
       try{
-        await this.getNameDataFromLocal() 
-      } 
+        await this.getNameDataFromLocal()
+      }
       catch{
         console.error("Erreur Avec la Base de données")
         this.localStorageService.clearLocalStorage()
@@ -120,5 +130,5 @@ removeTab(nameData: NameData) {
    )
   this.openNewTab(await lastValueFrom(dialog.afterClosed()))
   }
-  
+
 }
