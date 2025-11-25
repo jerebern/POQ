@@ -1,55 +1,44 @@
 <mat-toolbar class="flex justify-between" color="primary">
-    <span>Prénom Ouvert Québec (POQ)</span>
+  <span>Prénom Ouvert Québec (POQ)</span>
   <span>
-    <button matIconButton [disabled]="!this.nameData.length"
-      (click)="openSearchDialog()"
-      aria-label="Recherché"
-    >
+    <button matIconButton [disabled]="!this.nameData.length" (click)="openSearchDialog()" aria-label="Recherché">
       <mat-icon>search</mat-icon>
     </button>
-    <button matIconButton [disabled]="!this.nameData.length"
-      (click)="refreshClick()" aria-label="Rafraichir"
-      matTooltip = "Dernière mise à jour : {{this.localStorageService.getLastUpdateDate()}}"
-    >
+    <button matIconButton [disabled]="!this.nameData.length" (click)="refreshClick()" aria-label="Rafraichir" matTooltip = "Dernière mise à jour : {{this.localStorageService.getLastUpdateDate()}}">
       <mat-icon>refresh</mat-icon>
     </button>
   </span>
 </mat-toolbar>
 
 <!--  checkbox nom homme nom femme -->
-<mat-tab-group
-[selectedIndex]="selectedTab.value"
->
+<mat-tab-group [selectedIndex]="selectedTab.value">
   <mat-tab>
-      <ng-template mat-tab-label>
+    <ng-template mat-tab-label>
       Liste des noms
     </ng-template>
-  @if(nameData.length){
-  <app-name-data-table
-  (viewEvent)="openNewTab($event)"
-  [nameDatas]="nameData">
-  </app-name-data-table>
-  }
-  @else {
-    <div class="my-[15%]">
-      <h2 class="mx-[35%] text-center">
-        {{dataSourceStr}}
-      </h2>
-      <mat-progress-bar mode="query"></mat-progress-bar>
-    </div>
-  }
+    @if(nameData.length){
+      <app-name-data-table
+        (viewEvent)="openNewTab($event)"
+        [nameDatas]="nameData">
+      </app-name-data-table>
+    }
+    @else{
+      <div class="my-[15%]">
+        <h2 class="mx-[35%] text-center">
+          {{dataSourceStr}}
+        </h2>
+        <mat-progress-bar mode="query"></mat-progress-bar>
+      </div>
+    }
   </mat-tab>
   @for (item of openedNameDataTabs; track $index) {
-      <mat-tab>
+    <mat-tab>
       <ng-template mat-tab-label>
-      <label>{{item.name}} ({{item.nameType}})</label> <button mat-icon-button (click)="removeTab(item)" class="mr-2"><mat-icon>clear</mat-icon></button>
-    </ng-template>
-    <app-name-data-view
-    [nameData]="item"
-    >
-  </app-name-data-view>
+        <label>{{item.name}} ({{item.nameType}})</label> <button mat-icon-button (click)="removeTab(item)" class="mr-2"><mat-icon>clear</mat-icon></button>
+      </ng-template>
+      <app-name-data-view
+        [nameData]="item">
+      </app-name-data-view>
     </mat-tab>
   }
 </mat-tab-group>
-
-
