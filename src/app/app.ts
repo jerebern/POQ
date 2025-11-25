@@ -120,6 +120,7 @@ removeTab(nameData: NameData) {
     this.dataSourceStr = "Récupérations des données en local"
     this.nameData = await this.localDbService.getNamesDatas()
   }
+
  async  openSearchDialog(){
    let dialog = this.dialog.open(NameSearchDialog,{data:
       this.nameData,

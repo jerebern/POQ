@@ -32,12 +32,11 @@
   }
   @else {
     <div class="my-[15%]">
-    <h2 class="mx-[35%]">
-      {{dataSourceStr}}
-    </h2>
-  <mat-progress-bar mode="query"></mat-progress-bar>
+      <h2 class="mx-[35%] text-center">
+        {{dataSourceStr}}
+      </h2>
+      <mat-progress-bar mode="query"></mat-progress-bar>
     </div>
-
   }
   </mat-tab>
   @for (item of openedNameDataTabs; track $index) {
