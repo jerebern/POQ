@@ -100,18 +100,17 @@ export class NameDataTable implements OnInit{
     this.filteredNoms = []
     if(action == "NEXT"){
       this.nameDataArrayIndex += 100
+      this.pageIndex++
+  
     }
-    else if (action == "PREVIOUS"){
-      if(this.nameDataArrayIndex != 0){
+    else if (action == "PREVIOUS" && this.nameDataArrayIndex > 0){
         this.nameDataArrayIndex-=100
-      }
+        this.pageIndex--
     }
     if(resetPageIndex){
       this.pageIndex = 1
     }
-    else{
-      this.pageIndex++
-    }
+
     let index = structuredClone(this.nameDataArrayIndex)
     while(index < this.nameDatas.length){
       if(this.applyFilter(this.nameDatas[index])){
@@ -120,10 +119,9 @@ export class NameDataTable implements OnInit{
       if(this.filteredNoms.length > 99){
         break
       }
+      //console.log(query(this.nameDatas,{page:1,limit:10,search:{value:"JEREMY",keys:"NAME"}}))
       index++
     }
-    console.log(this.nameDatas.length)
-    console.log(this.nameDatas.findIndex((element)=> element.nameType == NameType.FEMME))
   }
 
   resetIndexFromFilter(){
@@ -173,8 +171,6 @@ export class NameDataTable implements OnInit{
      if (nameA > nameB) {
        return 1;
      }
-
-  // names must be equal
     return 0;
   }
 
