@@ -9,6 +9,7 @@
     </button>
     <button matIconButton [disabled]="!this.nameData.length"
       (click)="refreshClick()" aria-label="Rafraichir"
+      matTooltip = "Dernière mise à jour : {{this.localStorageService.getLastUpdateDate()}}"
     >
       <mat-icon>refresh</mat-icon>
     </button>
