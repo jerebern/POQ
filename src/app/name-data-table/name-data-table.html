@@ -1,9 +1,9 @@
 <div class="flex justify-between my-2">
-   <button class="ml-2" matButton="filled" (click)="setnameDataFromPageIndex('PREVIOUS')">
+   <button class="ml-2" matButton="filled" [disabled]="disableNextPreviousButton" (click)="setnameDataFromPageIndex('PREVIOUS')">
     Précédent <mat-icon matPrefix>keyboard_arrow_left</mat-icon>
   </button>
-  <label>{{this.pageIndex + 1}} </label>
-  <button class="mr-2" matButton="filled" (click)="setnameDataFromPageIndex('NEXT')">
+  <label>{{this.pageIndex + 1}}</label>
+  <button class="mr-2" matButton="filled" [disabled]="disableNextPreviousButton"   (click)="setnameDataFromPageIndex('NEXT')">
     Suivant <mat-icon matSuffix>keyboard_arrow_right</mat-icon>
   </button>
 </div>
@@ -40,7 +40,7 @@
     </mat-form-field>
   </td>
 </tr>
-
+@if(filteredNoms.length>0){
 @for (item of filteredNoms; track $index) {
   <tr app-name-data-row
     [class]="grayBackground($index) + ' row'"
@@ -49,14 +49,16 @@
   >
   </tr>
 }
+}
+
 </table>
 
 <div class="flex justify-between my-2">
-    <button matButton="filled"  (click)="setnameDataFromPageIndex('PREVIOUS')">Précédent
+    <button matButton="filled"  [disabled]="disableNextPreviousButton" (click)="setnameDataFromPageIndex('PREVIOUS')">Précédent
       <mat-icon matPrefix>keyboard_arrow_left</mat-icon></button>
-    <label>{{pageIndex}}</label>
+  <label>{{this.pageIndex + 1}} </label>
 
-    <button matButton="filled" (click)="setnameDataFromPageIndex('NEXT')">Suivant
+    <button matButton="filled" [disabled]="disableNextPreviousButton" (click)="setnameDataFromPageIndex('NEXT')">Suivant
       <mat-icon matSuffix>keyboard_arrow_right</mat-icon>
     </button>
 </div>

@@ -15,7 +15,6 @@
   </span>
 </mat-toolbar>
 
-<!--  checkbox nom homme nom femme -->
 <mat-tab-group
 [selectedIndex]="selectedTab.value"
 >
@@ -23,12 +22,12 @@
       <ng-template mat-tab-label>
       Liste des noms
     </ng-template>
-  @if(nameData.length){
+  @if(nameData.length){ 
   <app-name-data-table
   (viewEvent)="openNewTab($event)"
-  [nameDatas]="nameData">
+  >
   </app-name-data-table>
-  }
+   }
   @else {
     <div class="my-[15%]">
     <h2 class="mx-[35%]">

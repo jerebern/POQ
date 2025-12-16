@@ -10,8 +10,8 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatSelectModule} from '@angular/material/select';
 import { NameType } from '../../enum/nameType';
 import { TableFilterType } from '../../enum/table-filter-type';
-import { query } from '@chronicstone/array-query'
 import replaceSpecialCharacters from 'replace-special-characters';
+import { LocalDbService } from '../services/local-db-service';
  
 @Component({
   selector: 'app-name-data-table',
@@ -21,10 +21,12 @@ import replaceSpecialCharacters from 'replace-special-characters';
   styleUrl: './name-data-table.scss'
 })
 export class NameDataTable implements OnInit{
+  constructor(
+        private localDbService : LocalDbService
+  ){}
   @Input() nameDatas : NameData[] = []
   @Output() viewEvent = new EventEmitter<NameData>();
   changeTypeIndex : number = 0
-  nameDatasOG : NameData[] = []
   orderType : boolean = false
   totalUseOrder : boolean = false
   alphabeticalOrderName : boolean = false
@@ -37,14 +39,11 @@ export class NameDataTable implements OnInit{
   selectedFilters : TableFilterType[] = []
   typeHommeIndex : number = 0
   typeFemmeIndex : number = 0
-  ngOnInit(): void {
-    //structureClone permets une copie complète en mémoire, sinon JS utilise des pointeur 
-    this.nameDatasOG = JSON.parse(JSON.stringify(this.nameDatas))
-    this.typeFemmeIndex = this.nameDatas.findIndex((element)=> element.nameType == NameType.FEMME)
-    this.typeHommeIndex = this.nameDatas.findIndex((element)=> element.nameType == NameType.HOMME)
-
-   this.initFormsSub()
-   this.setnameDataFromPageIndex()
+  indexbound = 100
+  async ngOnInit() {
+    await this.initNameData()
+    this.initFormsSub()
+    this.setnameDataFromPageIndex()
   }
 
   initFormsSub(){
@@ -91,24 +90,27 @@ export class NameDataTable implements OnInit{
   }
   removeFilter(filterType :TableFilterType){
     this.selectedFilters =  this.selectedFilters.splice(this.selectedFilters.findIndex((element)=> element == filterType),0)
-    console.log(this.selectedFilters)
     this.nameDataArrayIndex = 0
 
   }
+  get disableNextPreviousButton(){
+    return this.selectedFilters.find((element) => element == TableFilterType.NAME)
+  }
+  
   setnameDataFromPageIndex(action ?: string, resetPageIndex ?: boolean){
-    console.log(this.selectedFilters)
+    (this.nameDatas.length)
     this.filteredNoms = []
-    if(action == "NEXT"){
-      this.nameDataArrayIndex += 100
+    if(action == "NEXT" && this.nameDatas.length <= this.nameDatas.length + this.indexbound ){
+      this.nameDataArrayIndex += this.indexbound
       this.pageIndex++
   
     }
     else if (action == "PREVIOUS" && this.nameDataArrayIndex > 0){
-        this.nameDataArrayIndex-=100
+        this.nameDataArrayIndex -= this.indexbound
         this.pageIndex--
     }
     if(resetPageIndex){
-      this.pageIndex = 1
+      this.pageIndex = 0
     }
 
     let index = structuredClone(this.nameDataArrayIndex)
@@ -119,17 +121,20 @@ export class NameDataTable implements OnInit{
       if(this.filteredNoms.length > 99){
         break
       }
-      //console.log(query(this.nameDatas,{page:1,limit:10,search:{value:"JEREMY",keys:"NAME"}}))
       index++
     }
   }
 
   resetIndexFromFilter(){
-    
+    this.pageIndex = 0 
+    this.pageIndex = 0 
   }
 
-  resetNameData(){
-   // this.nameDatas = JSON.parse(JSON.stringify((this.nameDatasOG)))
+  async initNameData(){
+    this.resetIndexFromFilter()
+    this.nameDatas = await this.localDbService.getNamesDatas()
+    this.typeFemmeIndex = this.nameDatas.findIndex((element)=> element.nameType == NameType.FEMME)
+    this.typeHommeIndex = this.nameDatas.findIndex((element)=> element.nameType == NameType.HOMME)
   }
 
   applyFilter(name : NameData){
@@ -154,7 +159,7 @@ export class NameDataTable implements OnInit{
     return false
   }
   orderByTotalOfUse(){
-    this.resetNameData()
+    this.initNameData()
     if(!this.totalUseOrder){
       this.nameDatas = this.nameDatas.sort((a,b) => a.totalUse - b.totalUse)
     }
@@ -175,7 +180,7 @@ export class NameDataTable implements OnInit{
   }
 
   orderByAlphabetical(){
-    this.resetNameData()
+    this.initNameData()
     this.nameDatas.sort((a, b) => {
       if(!this.alphabeticalOrderName){
        return this.compareStringAlphabetical(a.name!.toUpperCase(),b.name!.toUpperCase())    
@@ -190,7 +195,7 @@ export class NameDataTable implements OnInit{
     this.setnameDataFromPageIndex(undefined,true)
   }
   orderByType(){
-    this.resetNameData()
+    this.initNameData()
     this.nameDatas.sort((a, b) => {
       if(!this.orderType){
        return this.compareStringAlphabetical(a.nameType!.toUpperCase(),b.nameType!.toUpperCase())    
@@ -202,9 +207,7 @@ export class NameDataTable implements OnInit{
 
   )
     this.orderType = !this.orderType
-    this.setnameDataFromPageIndex(
-      
-    )
+    this.setnameDataFromPageIndex()
   }
   grayBackground(rowIndex : number){
     if(rowIndex%2 == 1){

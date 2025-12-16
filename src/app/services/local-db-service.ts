@@ -21,6 +21,7 @@ export class LocalDbService {
     await lastValueFrom(this.dbService.bulkAdd(DatabaseName.NameData,namesDatas)) 
   }
   async getNamesDatas() : Promise<any> {
-    return await lastValueFrom(this.dbService.getAll("NameData"))
+    return await lastValueFrom(this.dbService.getAll(DatabaseName.NameData))
   }
+
 }
