@@ -24,7 +24,7 @@ export class NameDataTable implements OnInit{
   constructor(
         private localDbService : LocalDbService
   ){}
-  @Input() nameDatas : NameData[] = []
+  @Input() nameDatas : NameData[] = [] //TODO COMPORTEMENT ICI A REFACTORISER
   @Output() viewEvent = new EventEmitter<NameData>();
   changeTypeIndex : number = 0
   orderType : boolean = false
