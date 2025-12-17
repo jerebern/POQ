@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { NameData } from '../objects/name-data';
-import { last } from 'rxjs';
+import { LocalStorageName } from '../objects/localStorageName';
+
 
 @Injectable({
   providedIn: 'root'
@@ -17,24 +17,24 @@ export class LocalStorageService {
   }
 
   setDisclamer(){
-    localStorage.setItem("disclamer",new Date().toDateString())
+    localStorage.setItem(LocalStorageName.DISCLAMER ,new Date().toDateString())
   }
 
   getDisclamer(){
-    return localStorage.getItem("disclamer")
+    return localStorage.getItem(LocalStorageName.DISCLAMER)
   }
 
   getLastWebDataBaseUpdate(){
-    return localStorage.getItem("lastUpdate")
+    return localStorage.getItem(LocalStorageName.DISCLAMER)
   }
 
   getLastUpdateDate(){
-    let updateDate = new Date(localStorage.getItem("lastUpdate")?.toString() ?? "")
-    return updateDate.getDate() + "/" + (updateDate.getMonth()+1) + "/" + updateDate.getFullYear()
+    let updateDate = new Date(localStorage.getItem(LocalStorageName.LASTUPDATE)?.toString() ?? "")
+    return updateDate.getDate() + "-" + (updateDate.getMonth()+1) + "-" + updateDate.getFullYear()
   }
 
   setLastWebdataBaseUpdate(){
-    localStorage.setItem("lastUpdate",new Date().toDateString())
+    localStorage.setItem(LocalStorageName.LASTUPDATE,new Date().toDateString())
   }
 
   clearLocalStorage(){
