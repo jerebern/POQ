@@ -7,18 +7,13 @@ import { last } from 'rxjs';
 })
 export class LocalStorageService {
   validateWebDataBase() : boolean{
-    let storeValue = this.getLastWebDataBaseUpdate()
-    let lastUpdate : Date
+    let lastUpdate : string|null = this.getLastWebDataBaseUpdate()
     let futurDate = new Date()
     futurDate.setDate(futurDate.getDate() + 7)
-
-    if(storeValue != null){
-      lastUpdate = new Date(storeValue)
-      if(futurDate < lastUpdate){
-        return true
-      }
+    if(lastUpdate != null && (futurDate.getTime() < new Date(lastUpdate).getTime())){     
+      return false
     }
-    return false
+    return true
   }
 
   setDisclamer(){

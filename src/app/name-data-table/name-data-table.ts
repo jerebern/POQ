@@ -28,7 +28,7 @@ export class NameDataTable implements OnInit{
   @Output() viewEvent = new EventEmitter<NameData>();
   changeTypeIndex : number = 0
   orderType : boolean = false
-  totalUseOrder : boolean = false
+  totalUseOrder : boolean = true
   alphabeticalOrderName : boolean = false
   filteredNoms : NameData[] = []
   nameDataArrayIndex : number = 0
@@ -44,6 +44,8 @@ export class NameDataTable implements OnInit{
     await this.initNameData()
     this.initFormsSub()
     this.setnameDataFromPageIndex()
+    this.orderByTotalOfUse(false)
+
   }
 
   initFormsSub(){
@@ -158,8 +160,10 @@ export class NameDataTable implements OnInit{
     }
     return false
   }
-  orderByTotalOfUse(){
+  orderByTotalOfUse(resetData ?: boolean){
+    if(resetData){
     this.initNameData()
+    }
     if(!this.totalUseOrder){
       this.nameDatas = this.nameDatas.sort((a,b) => a.totalUse - b.totalUse)
     }
