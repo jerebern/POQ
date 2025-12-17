@@ -4,7 +4,7 @@ import { donneeQuebecRessourceStore } from '../objects/donneeQuebecRessourceStor
 import { lastValueFrom } from 'rxjs';
 import { LocalDbService } from './local-db-service';
 import { NameData } from '../objects/name-data';
-import { NameType } from '../objects/nameType';
+import { NameType } from '../../enum/nameType';
 
 @Injectable({
   providedIn: 'root'

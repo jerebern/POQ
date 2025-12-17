@@ -1,4 +1,4 @@
-import { NameType } from "./nameType"
+import { NameType } from "../../enum/nameType"
 import { Year } from "./year"
 
 export interface NameData {

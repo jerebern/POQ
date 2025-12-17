@@ -10,8 +10,8 @@
       </mat-panel-description>
     </mat-expansion-panel-header>
     <table>
-      <th (click)="orderByYear()"> Année</th>
-      <th (click)="orderByUse()">Utilisation</th>
+      <th class="bg-neutral-50 hover:bg-neutral-200 font-bold"  (click)="orderByYear()"> Année</th>
+      <th class="bg-neutral-50 hover:bg-neutral-200 font-bold" (click)="orderByUse()">Utilisation</th>
       @for (item of nameData.years; track $index) {
         <tr [class]="grayBackground($index)">
          <td>

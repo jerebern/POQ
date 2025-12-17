@@ -10,7 +10,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { NameData } from '../objects/name-data';
 import { AsyncPipe } from '@angular/common';
 import { map, Observable, startWith } from 'rxjs';
-import { NameType } from '../objects/nameType';
+import { NameType } from '../../enum/nameType';
 
 @Component({
   selector: 'app-name-search-dialog',

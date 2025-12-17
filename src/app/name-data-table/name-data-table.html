@@ -1,37 +1,64 @@
 <div class="flex justify-between my-2">
-   <button class="ml-2" matButton="filled" (click)="setnameDataFromPageIndex('PREVIOUS')">
+   <button class="ml-2" matButton="filled" [disabled]="disableNextPreviousButton" (click)="setnameDataFromPageIndex('PREVIOUS')">
     Précédent <mat-icon matPrefix>keyboard_arrow_left</mat-icon>
   </button>
-  <label>{{this.strPageInformation}} </label>
-  <button class="mr-2" matButton="filled" (click)="setnameDataFromPageIndex('NEXT')">
+  <label>{{this.pageIndex + 1}}</label>
+  <button class="mr-2" matButton="filled" [disabled]="disableNextPreviousButton"   (click)="setnameDataFromPageIndex('NEXT')">
     Suivant <mat-icon matSuffix>keyboard_arrow_right</mat-icon>
   </button>
 </div>
 <table>
-<th mat-header-cell (click)="orderByType()" class="clickHeader">Type</th>
-<th mat-header-cell class="clickHeader" (click)="orderByAlphabetical()" >Nom</th>
-<th (click)="orderByTotalOfUse()" mat-header-cell class="clickHeader">
-  Utilisation
-</th>
-<th mat-header-cell >
-  Détail
-</th>
+  <thead>
+    <tr>
+      <th mat-header-cell (click)="orderByType()" class="clickHeader bg-neutral-50 hover:bg-neutral-200 font-bold">
+        Type
+      </th>
+      <th mat-header-cell class="clickHeader bg-neutral-50 hover:bg-neutral-200 font-bold" (click)="orderByAlphabetical()">
+        Nom
+      </th>
+      <th (click)="orderByTotalOfUse()" mat-header-cell class="clickHeader bg-neutral-50 hover:bg-neutral-200 font-bold">
+        Utilisation
+      </th>
+      <th mat-header-cell >
+        Détail
+      </th>
+    </tr>
+</thead>
+<tr>
+  <td>
+  <mat-form-field>
+    <mat-select [formControl]="typeFormControl">
+      <mat-option value="ALL">Tout</mat-option>
+      <mat-option value="HOMME">Homme</mat-option>
+      <mat-option value="FEMME">Femme</mat-option>
+    </mat-select>
+  </mat-form-field>
+  </td>
+  <td>
+    <mat-form-field>
+      <input matInput [formControl]="filterdNameFormControl">
+    </mat-form-field>
+  </td>
+</tr>
+@if(filteredNoms.length>0){
 @for (item of filteredNoms; track $index) {
   <tr app-name-data-row
-    [class]="grayBackground($index)"
+    [class]="grayBackground($index) + ' row'"
     [nameData]="item"
     (viewEvent)="onViewEvent($event)"
   >
   </tr>
 }
+}
+
 </table>
 
 <div class="flex justify-between my-2">
-    <button matButton="filled"  (click)="setnameDataFromPageIndex('PREVIOUS')">Précédent
+    <button matButton="filled"  [disabled]="disableNextPreviousButton" (click)="setnameDataFromPageIndex('PREVIOUS')">Précédent
       <mat-icon matPrefix>keyboard_arrow_left</mat-icon></button>
-    <label>{{pageIndex+1}}</label>
+  <label>{{this.pageIndex + 1}} </label>
 
-    <button matButton="filled" (click)="setnameDataFromPageIndex('NEXT')">Suivant
+    <button matButton="filled" [disabled]="disableNextPreviousButton" (click)="setnameDataFromPageIndex('NEXT')">Suivant
       <mat-icon matSuffix>keyboard_arrow_right</mat-icon>
     </button>
 </div>
