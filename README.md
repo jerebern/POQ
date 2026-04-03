@@ -1,60 +1,32 @@
 # POQ
-## Prénom Ouvert Québec
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.2.2.
+### Prénom Ouvert Québec
 
-## Development server
+Prénom Ouvert Québec est un projet personnel visant à interpréter les données brutes disponibles sur le site Données Ouvertes Québec.
+Ce projet n’utilise pas d’API personnalisée.
 
-To start a local development server, run:
+Il est possible d'accéder à [POQ ici](https://jerebern.github.io/POQ/)
 
-```bash
-ng serve
-```
+### Pourquoi ce projet?
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+La plupart des plateformes de visualisation de ces données n’offrent pas d’interprétations précises à l’aide de graphiques et sont malheureusement remplies de publicités.
 
-## Code scaffolding
+### Les jeux de données
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Il est possible que certains prénoms n’aient aucun sens, par exemple LXXXXXXXXXXXXXXXX, ALEXISXXXXXXXXXXX. Ceci est dû à une erreur dans les jeux de données.
 
-```bash
-ng generate component component-name
-```
+### Fonctionnement
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Récupération des données disponibles sur Données Québec
 
-```bash
-ng generate --help
-```
+- [Banque de prénoms garçons](https://www.donneesquebec.ca/recherche/dataset/banque-de-prenoms-garcons)
+- [Banque de prénoms filles](https://www.donneesquebec.ca/recherche/dataset/banque-de-prenoms-filles)
 
-## Building
+Insertion des données disponibles dans l’IndexedDB du navigateur
 
-To build the project run:
+Visualisation des jeux de données
 
-```bash
-ng build
-```
+### Bugs
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- POQ n’est présentement pas compatible avec Firefox (IndexedDB trop volumineuse)
+- Il y a un bug avec le tri des données dans le tableau
