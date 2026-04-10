@@ -30,3 +30,4 @@ Visualisation des jeux de données
 
 - POQ n’est présentement pas compatible avec Firefox (IndexedDB trop volumineuse)
 - Il y a un bug avec le tri des données dans le tableau
+- Il faudrait migrer vers des csv car données Québec semble avoir des problème avec l'API quelque fois
