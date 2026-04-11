@@ -1,9 +1,9 @@
 <div class="flex justify-between my-2">
-   <button class="ml-2" matButton="filled" [disabled]="disableNextPreviousButton" (click)="setnameDataFromPageIndex('PREVIOUS')">
+   <button class="ml-2" matButton="filled" [disabled]="disablePreviousButton" (click)="setnameDataFromPageIndex('PREVIOUS')">
     Précédent <mat-icon matPrefix>keyboard_arrow_left</mat-icon>
   </button>
   <label>{{this.pageIndex + 1}}</label>
-  <button class="mr-2" matButton="filled" [disabled]="disableNextPreviousButton"   (click)="setnameDataFromPageIndex('NEXT')">
+  <button class="mr-2" matButton="filled" [disabled]="disableNextButton"   (click)="setnameDataFromPageIndex('NEXT')">
     Suivant <mat-icon matSuffix>keyboard_arrow_right</mat-icon>
   </button>
 </div>
@@ -54,11 +54,11 @@
 </table>
 
 <div class="flex justify-between my-2">
-    <button matButton="filled"  [disabled]="disableNextPreviousButton" (click)="setnameDataFromPageIndex('PREVIOUS')">Précédent
+    <button matButton="filled"  [disabled]="disablePreviousButton" (click)="setnameDataFromPageIndex('PREVIOUS')">Précédent
       <mat-icon matPrefix>keyboard_arrow_left</mat-icon></button>
   <label>{{this.pageIndex + 1}} </label>
 
-    <button matButton="filled" [disabled]="disableNextPreviousButton" (click)="setnameDataFromPageIndex('NEXT')">Suivant
+    <button matButton="filled" [disabled]="disableNextButton" (click)="setnameDataFromPageIndex('NEXT')">Suivant
       <mat-icon matSuffix>keyboard_arrow_right</mat-icon>
     </button>
 </div>
