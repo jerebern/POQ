@@ -7,13 +7,7 @@ import { LocalStorageName } from '../objects/localStorageName';
 })
 export class LocalStorageService {
   validateWebDataBase() : boolean{
-    let lastUpdate : string|null = this.getLastWebDataBaseUpdate()
-    let futurDate = new Date()
-    futurDate.setDate(futurDate.getDate() + 7)
-    if(lastUpdate != null && (futurDate.getTime() < new Date(lastUpdate).getTime())){     
-      return false
-    }
-    return true
+    return Boolean(this.getLastWebDataBaseUpdate())
   }
 
   setDisclamer(){
@@ -25,7 +19,7 @@ export class LocalStorageService {
   }
 
   getLastWebDataBaseUpdate(){
-    return localStorage.getItem(LocalStorageName.DISCLAMER)
+    return localStorage.getItem(LocalStorageName.LASTUPDATE)
   }
 
   getLastUpdateDate(){

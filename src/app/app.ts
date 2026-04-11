@@ -42,6 +42,7 @@ export class App implements OnInit {
   selectedTab = new FormControl(0)
   dataSourceStr : string = ""
   lastUpdate : string = ""
+  requestInProgress : boolean = false;
 
   async ngOnInit() {
     if(this.disclamerValue == null){
@@ -73,7 +74,6 @@ export class App implements OnInit {
     }
   }
 
-
 removeTab(nameData: NameData) {
   this.openedNameDataTabs.splice(this.openedNameDataTabs.findIndex(
     (element) => element == nameData),1)
@@ -102,11 +102,26 @@ removeTab(nameData: NameData) {
     this.getNameDataFromDonneeQuebecApi()
   }
 
+
+
   async getNameDataFromDonneeQuebecApi(){
+    this.requestInProgress = true;
     this.nameData =[]
+    let success = true;
     this.dataSourceStr = "Récupérations des données à https://www.donneesquebec.ca/"
-    await this.donneesQuebecApiRequestService.refreshData(donneeQuebecRessourceStore.prenomHomme,true)
-    await this.donneesQuebecApiRequestService.refreshData(donneeQuebecRessourceStore.prenomFemme,false )
+    try {
+        await this.donneesQuebecApiRequestService.refreshData(donneeQuebecRessourceStore.prenomHomme,true)
+    } catch (error) {
+        success = false;
+    }
+    try{
+      await this.donneesQuebecApiRequestService.refreshData(donneeQuebecRessourceStore.prenomFemme,false )
+
+    }
+    catch{
+      success = false;
+    }
+    if(success){
     this.localStorageService.setLastWebdataBaseUpdate()
       try{
         await this.getNameDataFromLocal()
@@ -115,7 +130,13 @@ removeTab(nameData: NameData) {
         console.error("Erreur Avec la Base de données")
         this.localStorageService.clearLocalStorage()
       }
+    }
+    else{
+      this.dataSourceStr = "Erreur avec https://www.donneesquebec.ca/"
+    }
+      this.requestInProgress = false;
   }
+
   async getNameDataFromLocal(){
     this.dataSourceStr = "Récupérations des données en local"
     this.nameData = await this.localDbService.getNamesDatas()

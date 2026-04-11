@@ -12,7 +12,7 @@ import { NameType } from '../../enum/nameType';
 import { TableFilterType } from '../../enum/table-filter-type';
 import replaceSpecialCharacters from 'replace-special-characters';
 import { LocalDbService } from '../services/local-db-service';
- 
+
 @Component({
   selector: 'app-name-data-table',
   imports: [NameDataRow,MatIconModule,MatButtonModule,MatFormFieldModule, MatSelectModule, MatInputModule, FormsModule,ReactiveFormsModule],
@@ -95,17 +95,23 @@ export class NameDataTable implements OnInit{
     this.nameDataArrayIndex = 0
 
   }
-  get disableNextPreviousButton(){
+  get disableNextButton(){
     return this.selectedFilters.find((element) => element == TableFilterType.NAME)
   }
-  
+    get disablePreviousButton(){
+    if(this.pageIndex > 0){
+      return false;
+    }
+    return true;
+  }
+
   setnameDataFromPageIndex(action ?: string, resetPageIndex ?: boolean){
     (this.nameDatas.length)
     this.filteredNoms = []
     if(action == "NEXT" && this.nameDatas.length <= this.nameDatas.length + this.indexbound ){
       this.nameDataArrayIndex += this.indexbound
       this.pageIndex++
-  
+
     }
     else if (action == "PREVIOUS" && this.nameDataArrayIndex > 0){
         this.nameDataArrayIndex -= this.indexbound
@@ -128,8 +134,8 @@ export class NameDataTable implements OnInit{
   }
 
   resetIndexFromFilter(){
-    this.pageIndex = 0 
-    this.pageIndex = 0 
+    this.pageIndex = 0
+    this.pageIndex = 0
   }
 
   async initNameData(){
@@ -147,11 +153,11 @@ export class NameDataTable implements OnInit{
     else{
       //pourrait être simplifier
       for( let filter of this.selectedFilters){
-        if(filter == TableFilterType.TYPE && name.nameType == this.typeFormControl.value){ 
+        if(filter == TableFilterType.TYPE && name.nameType == this.typeFormControl.value){
         successCondition++
         }
        if(filter == TableFilterType.NAME && name.name?.toUpperCase().match(this.filterdNameWihtoutSpecialChar.toUpperCase())) {
-        successCondition++  
+        successCondition++
         }
       }
       if(successCondition == this.selectedFilters.length){
@@ -187,10 +193,10 @@ export class NameDataTable implements OnInit{
     this.initNameData()
     this.nameDatas.sort((a, b) => {
       if(!this.alphabeticalOrderName){
-       return this.compareStringAlphabetical(a.name!.toUpperCase(),b.name!.toUpperCase())    
+       return this.compareStringAlphabetical(a.name!.toUpperCase(),b.name!.toUpperCase())
       }
       else{
-       return this.compareStringAlphabetical(b.name!.toUpperCase(),a.name!.toUpperCase())    
+       return this.compareStringAlphabetical(b.name!.toUpperCase(),a.name!.toUpperCase())
       }
     }
 
@@ -202,10 +208,10 @@ export class NameDataTable implements OnInit{
     this.initNameData()
     this.nameDatas.sort((a, b) => {
       if(!this.orderType){
-       return this.compareStringAlphabetical(a.nameType!.toUpperCase(),b.nameType!.toUpperCase())    
+       return this.compareStringAlphabetical(a.nameType!.toUpperCase(),b.nameType!.toUpperCase())
       }
       else{
-       return this.compareStringAlphabetical(b.nameType!.toUpperCase(),a.nameType!.toUpperCase())    
+       return this.compareStringAlphabetical(b.nameType!.toUpperCase(),a.nameType!.toUpperCase())
       }
     }
 

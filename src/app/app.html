@@ -7,7 +7,7 @@
     >
       <mat-icon>search</mat-icon>
     </button>
-    <button matIconButton [disabled]="!this.nameData.length"
+    <button matIconButton [disabled]="requestInProgress"
       (click)="refreshClick()" aria-label="Rafraichir"
       matTooltip = "Dernière mise à jour {{this.localStorageService.getLastUpdateDate()}}"
     >
@@ -23,7 +23,8 @@
       <ng-template mat-tab-label>
       Liste des noms
     </ng-template>
-  @if(nameData.length){ 
+  @if(nameData.length){
+    <!-- TODO adapter mobile -->
   <app-name-data-table
   (viewEvent)="openNewTab($event)"
   >

@@ -30,14 +30,13 @@ export class DonneesQuebecApiRquest {
     return <any>this.http.get(this.baseURL,{
       params:this.getHttpParams(offset,store)
     })
-
   }
 
   extractValue(value : string){
       if(value == "<5"){
         return 1
       }
-      else 
+      else
         return Number(value)
   }
 
@@ -60,8 +59,8 @@ export class DonneesQuebecApiRquest {
             })
             totalUse+=value
           }
-          
-        }) 
+
+        })
           data[data.length-1].totalUse = totalUse
       }
       return data
@@ -75,7 +74,7 @@ export class DonneesQuebecApiRquest {
     let firstRun = resetDataBase
     let limits = 10000
     for(let offset = 0; offset<limits ; offset+=10000){
-      let records  : any = await lastValueFrom(this.getPrenomsData(offset,store)) 
+      let records  : any = await lastValueFrom(this.getPrenomsData(offset,store))
       limits = records.result.total
       await this.localDbService.saveNamesData(this.extractData(records,type),firstRun)
       firstRun = false
