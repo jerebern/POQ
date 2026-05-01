@@ -5,7 +5,10 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building..'
+                sh npm install
+                sh ng build
             }
+
         }
         stage('Test') {
             steps {
@@ -13,8 +16,12 @@ pipeline {
             }
         }
         stage('Deploy') {
+            when {
+                branch 'master' // Only runs this stage if the branch is master
+            }
             steps {
-                echo 'Deploying....'
+                echo 'Deploying to production...'
+                echo ng deploy
             }
         }
     }
