@@ -4,13 +4,13 @@ pipeline {
     stages {
         stage('Dep') {
             steps {
-                sh npm install
+                sh 'npm install'
             }
 
         }
         stage('Build') {
             steps {
-                sh ng build
+                sh 'ng build'
             }
 
         }
@@ -25,7 +25,7 @@ pipeline {
             }
             steps {
                 echo 'Deploying to production...'
-                echo ng deploy
+                echo 'ng deploy'
             }
         }
     }
