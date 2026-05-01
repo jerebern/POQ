@@ -2,10 +2,14 @@ pipeline {
     agent any
 
     stages {
+        stage('Dep') {
+            steps {
+                sh npm install
+            }
+
+        }
         stage('Build') {
             steps {
-                echo 'Building..'
-                sh npm install
                 sh ng build
             }
 
