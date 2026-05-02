@@ -27,7 +27,7 @@ pipeline {
             }
             steps {
                 echo 'Deploying to production...'
-                echo 'ng deploy'
+                sh 'ng deploy'
             }
         }
     }
