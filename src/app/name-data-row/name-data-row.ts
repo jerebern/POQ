@@ -1,8 +1,9 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NameData } from '../objects/name-data';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
+import { Year } from '../objects/year';
 
 @Component({
   selector: 'tr[app-name-data-row]',
@@ -10,20 +11,32 @@ import { MatTableModule } from '@angular/material/table';
   templateUrl: './name-data-row.html',
   styleUrl: './name-data-row.scss'
 })
-export class NameDataRow {
+export class NameDataRow implements OnInit {
+  ngOnInit(): void {
+    this.extractYears();
+    this.setTotalUse()
+
+  }
   @Input() nameData : NameData|null = null
   @Input() rowIndex : number = 0
   @Output() viewEvent = new EventEmitter<NameData>();
-  get utilisationTotal(){
+  years : Year[] = []
+  totalUse : number = 0;
+  setTotalUse(){
     let total = 0
-    for(let year of this.nameData!.years){
+    for(let year of this.years){
       total += Number(year.value)
     }
-    return total
+    this.totalUse = total
   }
   viewClickEvent(){
     if(this.nameData != null){
     this.viewEvent.emit(this.nameData)
+    }
+  }
+  extractYears(){
+    if(this.nameData){
+     this.years =  JSON.parse(this.nameData.years)
     }
   }
 

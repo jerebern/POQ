@@ -112,13 +112,16 @@ removeTab(nameData: NameData) {
     try {
         await this.donneesQuebecApiRequestService.refreshData(donneeQuebecRessourceStore.prenomHomme,true)
     } catch (error) {
+      console.log(error)
+
         success = false;
     }
     try{
       await this.donneesQuebecApiRequestService.refreshData(donneeQuebecRessourceStore.prenomFemme,false )
 
     }
-    catch{
+    catch (error){
+      console.log(error)
       success = false;
     }
     if(success){
@@ -128,13 +131,13 @@ removeTab(nameData: NameData) {
       }
       catch{
         console.error("Erreur Avec la Base de données")
-        this.localStorageService.clearLocalStorage()
+       this.localStorageService.clearLocalStorage()
       }
     }
     else{
       this.dataSourceStr = "Erreur avec https://www.donneesquebec.ca/"
     }
-      this.requestInProgress = false;
+     this.requestInProgress = false;
   }
 
   async getNameDataFromLocal(){

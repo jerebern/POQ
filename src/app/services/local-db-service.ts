@@ -1,27 +1,28 @@
 import { inject, Injectable } from '@angular/core';
 import { NameData } from '../objects/name-data';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
-import { lastValueFrom } from 'rxjs';
-import { DatabaseName } from '../objects/databasesName';
+import { AppDb } from './app-db';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LocalDbService {
   constructor(){}
-  dbService = inject(NgxIndexedDBService);
+  dbService = inject(AppDb);
 
-  async resetDatabase(){
-    return await lastValueFrom(this.dbService.clear(DatabaseName.NameData))
+async saveNamesData(
+  namesDatas: NameData[],
+  resetDatabase: boolean
+) {
+
+  if (resetDatabase) {
+
+    await this.dbService.namesDatas.clear();
   }
-  async saveNamesData(namesDatas : NameData[], resetDatabase : boolean){
-   if(resetDatabase){
-      await this.resetDatabase()
-   }
-    await lastValueFrom(this.dbService.bulkAdd(DatabaseName.NameData,namesDatas)) 
-  }
+
+  await this.dbService.namesDatas.bulkAdd(namesDatas);
+}
   async getNamesDatas() : Promise<any> {
-    return await lastValueFrom(this.dbService.getAll(DatabaseName.NameData))
+    return await this.dbService.namesDatas.toArray();
   }
 
 }
