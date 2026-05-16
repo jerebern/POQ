@@ -7,38 +7,27 @@ import { Year } from '../objects/year';
 
 @Component({
   selector: 'tr[app-name-data-row]',
-  imports: [MatButtonModule,MatIconModule,MatTableModule],
+  imports: [MatButtonModule, MatIconModule, MatTableModule],
   templateUrl: './name-data-row.html',
-  styleUrl: './name-data-row.scss'
+  styleUrl: './name-data-row.scss',
 })
 export class NameDataRow implements OnInit {
   ngOnInit(): void {
     this.extractYears();
-    this.setTotalUse()
-
   }
-  @Input() nameData : NameData|null = null
-  @Input() rowIndex : number = 0
+  @Input() nameData: NameData | null = null;
+  @Input() rowIndex: number = 0;
   @Output() viewEvent = new EventEmitter<NameData>();
-  years : Year[] = []
-  totalUse : number = 0;
-  setTotalUse(){
-    let total = 0
-    for(let year of this.years){
-      total += Number(year.value)
-    }
-    this.totalUse = total
-  }
-  viewClickEvent(){
-    if(this.nameData != null){
-    this.viewEvent.emit(this.nameData)
-    }
-  }
-  extractYears(){
-    if(this.nameData){
-     this.years =  JSON.parse(this.nameData.years)
-    }
-  }
+  years: Year[] = [];
 
-
+  viewClickEvent() {
+    if (this.nameData != null) {
+      this.viewEvent.emit(this.nameData);
+    }
+  }
+  extractYears() {
+    if (this.nameData) {
+      this.years = JSON.parse(this.nameData.years);
+    }
+  }
 }

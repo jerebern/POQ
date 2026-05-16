@@ -2,7 +2,7 @@
    <button class="ml-2" matButton="filled" [disabled]="disablePreviousButton" (click)="setnameDataFromPageIndex('PREVIOUS')">
     Précédent <mat-icon matPrefix>keyboard_arrow_left</mat-icon>
   </button>
-  <label>{{this.pageIndex + 1}}</label>
+  <label>{{this.pageIndex + 1}} / {{totalPage}}</label>
   <button class="mr-2" matButton="filled" [disabled]="disableNextButton"   (click)="setnameDataFromPageIndex('NEXT')">
     Suivant <mat-icon matSuffix>keyboard_arrow_right</mat-icon>
   </button>

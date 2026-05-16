@@ -12,6 +12,7 @@ import { NameType } from '../../enum/nameType';
 import { TableFilterType } from '../../enum/table-filter-type';
 import replaceSpecialCharacters from 'replace-special-characters';
 import { LocalDbService } from '../services/local-db-service';
+import { SearchParams } from '../../enum/search-params';
 
 @Component({
   selector: 'app-name-data-table',
@@ -33,7 +34,6 @@ export class NameDataTable implements OnInit {
   constructor(private localDbService: LocalDbService) {}
   nameDatas: NameData[] = []; //TODO COMPORTEMENT ICI A REFACTORISER
   @Output() viewEvent = new EventEmitter<NameData>();
-  changeTypeIndex: number = 0;
   orderType: boolean = false;
   totalUseOrder: boolean = true;
   alphabeticalOrderName: boolean = false;
@@ -42,35 +42,24 @@ export class NameDataTable implements OnInit {
   pageIndex: number = 0;
   typeFormControl = new FormControl('ALL');
   filterdNameFormControl = new FormControl();
-  filterdNameWihtoutSpecialChar: string = '';
   selectedFilters: TableFilterType[] = [];
-  typeHommeIndex: number = 0;
-  typeFemmeIndex: number = 0;
-  indexbound = 100;
+  indexBound = 100;
+
   async ngOnInit() {
     await this.initNameData();
     this.initFormsSub();
     this.setnameDataFromPageIndex();
-    this.orderByTotalOfUse(false);
+    this.orderByTotalOfUse();
   }
 
   initFormsSub() {
     this.typeFormControl.valueChanges.subscribe((value) => {
-      if (value != 'ALL') {
-        this.addFilter(TableFilterType.TYPE);
-      } else {
-        this.removeFilter(TableFilterType.TYPE);
-      }
       this.setnameDataFromPageIndex(undefined, true);
     });
     this.filterdNameFormControl.valueChanges.subscribe((value) => {
       if (value == null || value == '') {
-        this.removeFilter(TableFilterType.NAME);
       } else {
-        this.filterdNameWihtoutSpecialChar = replaceSpecialCharacters(value);
-        this.searchName(this.filterdNameWihtoutSpecialChar);
-
-        this.addFilter(TableFilterType.NAME);
+        this.searchName();
       }
       this.setnameDataFromPageIndex(undefined, true);
     });
@@ -78,25 +67,7 @@ export class NameDataTable implements OnInit {
   onViewEvent(nameData: NameData) {
     this.viewEvent.emit(nameData);
   }
-  addFilter(filterType: TableFilterType) {
-    if (!this.selectedFilters.find((element) => element == filterType)) {
-      this.selectedFilters.push(filterType);
-    }
-    if (filterType == TableFilterType.TYPE) {
-      if (this.typeFormControl.value == NameType.FEMME) {
-        this.nameDataArrayIndex = Number(this.typeFemmeIndex); //Constructeur number pour éviter les pointeur
-      } else {
-        this.nameDataArrayIndex = Number(this.typeHommeIndex);
-      }
-    }
-  }
-  removeFilter(filterType: TableFilterType) {
-    this.selectedFilters = this.selectedFilters.splice(
-      this.selectedFilters.findIndex((element) => element == filterType),
-      0,
-    );
-    this.nameDataArrayIndex = 0;
-  }
+
   get disableNextButton() {
     return this.selectedFilters.find((element) => element == TableFilterType.NAME);
   }
@@ -107,14 +78,18 @@ export class NameDataTable implements OnInit {
     return true;
   }
 
+  get totalPage() {
+    return Number(this.nameDatas.length / this.indexBound + 1).toFixed();
+  }
+
   setnameDataFromPageIndex(action?: string, resetPageIndex?: boolean) {
     this.nameDatas.length;
     this.filteredNoms = [];
-    if (action == 'NEXT' && this.nameDatas.length <= this.nameDatas.length + this.indexbound) {
-      this.nameDataArrayIndex += this.indexbound;
+    if (action == 'NEXT' && this.nameDatas.length <= this.nameDatas.length + this.indexBound) {
+      this.nameDataArrayIndex += this.indexBound;
       this.pageIndex++;
     } else if (action == 'PREVIOUS' && this.nameDataArrayIndex > 0) {
-      this.nameDataArrayIndex -= this.indexbound;
+      this.nameDataArrayIndex -= this.indexBound;
       this.pageIndex--;
     }
     if (resetPageIndex) {
@@ -123,9 +98,7 @@ export class NameDataTable implements OnInit {
 
     let index = structuredClone(this.nameDataArrayIndex);
     while (index < this.nameDatas.length) {
-      if (this.applyFilter(this.nameDatas[index])) {
-        this.filteredNoms.push(this.nameDatas[index]);
-      }
+      this.filteredNoms.push(this.nameDatas[index]);
       if (this.filteredNoms.length > 99) {
         break;
       }
@@ -141,42 +114,24 @@ export class NameDataTable implements OnInit {
   async initNameData() {
     this.resetIndexFromFilter();
     this.nameDatas = await this.localDbService.getNamesDatas();
-    this.typeFemmeIndex = this.nameDatas.findIndex((element) => element.nameType == NameType.FEMME);
-    this.typeHommeIndex = this.nameDatas.findIndex((element) => element.nameType == NameType.HOMME);
   }
 
-  async searchName(value: string) {
-    this.nameDatas = await this.localDbService.searchNameDatas(value);
+  async searchName() {
+    let type: null | NameType = null;
+    let searchStr: null | string = null;
+    if (this.typeFormControl.value != null && this.typeFormControl.value != 'ALL') {
+      type = this.typeFormControl.value as NameType;
+    }
+    if (this.filterdNameFormControl.value != null && this.filterdNameFormControl.value != '') {
+      searchStr = replaceSpecialCharacters(this.filterdNameFormControl.value);
+    }
+    this.nameDatas = await this.localDbService.searchNameDatas(new SearchParams(searchStr, type));
+    console.log(new SearchParams(searchStr, type));
     console.log(this.nameDatas);
+    this.setnameDataFromPageIndex(undefined, true);
   }
 
-  applyFilter(name: NameData) {
-    let successCondition: number = 0;
-    if (this.selectedFilters.length == 0) {
-      return true;
-    } else {
-      //pourrait être simplifier
-      for (let filter of this.selectedFilters) {
-        if (filter == TableFilterType.TYPE && name.nameType == this.typeFormControl.value) {
-          successCondition++;
-        }
-        /*         if (
-          filter == TableFilterType.NAME &&
-          name.name?.toUpperCase().match(this.filterdNameWihtoutSpecialChar.toUpperCase())
-        ) {
-          successCondition++;
-        } */
-      }
-      if (successCondition == this.selectedFilters.length) {
-        return true;
-      }
-    }
-    return false;
-  }
-  orderByTotalOfUse(resetData?: boolean) {
-    if (resetData) {
-      this.initNameData();
-    }
+  async orderByTotalOfUse() {
     if (!this.totalUseOrder) {
       this.nameDatas = this.nameDatas.sort((a, b) => a.totalUse - b.totalUse);
     } else {
@@ -196,7 +151,6 @@ export class NameDataTable implements OnInit {
   }
 
   orderByAlphabetical() {
-    this.initNameData();
     this.nameDatas.sort((a, b) => {
       if (!this.alphabeticalOrderName) {
         return this.compareStringAlphabetical(a.name!.toUpperCase(), b.name!.toUpperCase());
@@ -208,7 +162,6 @@ export class NameDataTable implements OnInit {
     this.setnameDataFromPageIndex(undefined, true);
   }
   orderByType() {
-    this.initNameData();
     this.nameDatas.sort((a, b) => {
       if (!this.orderType) {
         return this.compareStringAlphabetical(a.nameType!.toUpperCase(), b.nameType!.toUpperCase());
