@@ -12,6 +12,9 @@ export class SearchParams {
     return this.nameType;
   }
   public get SearchName() {
-    return this.searchName?.toLocaleUpperCase().trim();
+    if (this.searchName != null) {
+      return this.searchName.toLocaleUpperCase().trim();
+    }
+    return null;
   }
 }

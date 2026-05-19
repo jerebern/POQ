@@ -44,7 +44,7 @@ export class NameDataTable implements OnInit {
   filterdNameFormControl = new FormControl();
   selectedFilters: TableFilterType[] = [];
   indexBound = 100;
-
+  dbRequestInProgress = false;
   async ngOnInit() {
     await this.initNameData();
     this.initFormsSub();
@@ -65,7 +65,7 @@ export class NameDataTable implements OnInit {
   }
 
   get disableNextButton() {
-    return this.selectedFilters.find((element) => element == TableFilterType.NAME);
+    return this.pageIndex + 1 >= Number(this.totalPage.toFixed());
   }
   get disablePreviousButton() {
     if (this.pageIndex > 0) {
@@ -75,11 +75,10 @@ export class NameDataTable implements OnInit {
   }
 
   get totalPage() {
-    return Number(this.nameDatas.length / this.indexBound + 1).toFixed();
+    return Number(this.nameDatas.length / this.indexBound + 1);
   }
 
   setnameDataFromPageIndex(action?: string, resetPageIndex?: boolean) {
-    this.nameDatas.length;
     this.filteredNoms = [];
     if (action == 'NEXT' && this.nameDatas.length <= this.nameDatas.length + this.indexBound) {
       this.nameDataArrayIndex += this.indexBound;
@@ -115,6 +114,8 @@ export class NameDataTable implements OnInit {
   async searchName() {
     let type: null | NameType = null;
     let searchStr: null | string = null;
+    this.dbRequestInProgress = true;
+
     if (this.typeFormControl.value != null && this.typeFormControl.value != 'ALL') {
       type = this.typeFormControl.value as NameType;
     }
@@ -124,6 +125,7 @@ export class NameDataTable implements OnInit {
     this.nameDatas = await this.localDbService.searchNameDatas(new SearchParams(searchStr, type));
     console.log(new SearchParams(searchStr, type));
     console.log(this.nameDatas);
+    this.dbRequestInProgress = false;
     this.setnameDataFromPageIndex(undefined, true);
   }
 

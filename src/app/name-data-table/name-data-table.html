@@ -2,7 +2,7 @@
    <button class="ml-2" matButton="filled" [disabled]="disablePreviousButton" (click)="setnameDataFromPageIndex('PREVIOUS')">
     Précédent <mat-icon matPrefix>keyboard_arrow_left</mat-icon>
   </button>
-  <label>{{this.pageIndex + 1}} / {{totalPage}}</label>
+  <label>{{this.pageIndex + 1}} / {{totalPage.toFixed()}}</label>
   <button class="mr-2" matButton="filled" [disabled]="disableNextButton"   (click)="setnameDataFromPageIndex('NEXT')">
     Suivant <mat-icon matSuffix>keyboard_arrow_right</mat-icon>
   </button>
@@ -40,7 +40,9 @@
     </mat-form-field>
   </td>
 </tr>
-@if(filteredNoms.length>0){
+
+
+@if(!dbRequestInProgress ){
 @for (item of filteredNoms; track $index) {
   <tr app-name-data-row
     [class]="grayBackground($index) + ' row'"
