@@ -54,14 +54,10 @@ export class NameDataTable implements OnInit {
 
   initFormsSub() {
     this.typeFormControl.valueChanges.subscribe((value) => {
-      this.setnameDataFromPageIndex(undefined, true);
+      this.searchName();
     });
     this.filterdNameFormControl.valueChanges.subscribe((value) => {
-      if (value == null || value == '') {
-      } else {
-        this.searchName();
-      }
-      this.setnameDataFromPageIndex(undefined, true);
+      this.searchName();
     });
   }
   onViewEvent(nameData: NameData) {
