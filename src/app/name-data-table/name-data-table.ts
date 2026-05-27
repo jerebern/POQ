@@ -13,6 +13,8 @@ import { TableFilterType } from '../../enum/table-filter-type';
 import replaceSpecialCharacters from 'replace-special-characters';
 import { LocalDbService } from '../services/local-db-service';
 import { SearchParams } from '../../enum/search-params';
+import { MatProgressBar } from '@angular/material/progress-bar';
+import { timer } from 'rxjs';
 
 @Component({
   selector: 'app-name-data-table',
@@ -25,6 +27,7 @@ import { SearchParams } from '../../enum/search-params';
     MatInputModule,
     FormsModule,
     ReactiveFormsModule,
+    MatProgressBar,
   ],
   providers: [CdkColumnDef],
   templateUrl: './name-data-table.html',
@@ -45,6 +48,7 @@ export class NameDataTable implements OnInit {
   selectedFilters: TableFilterType[] = [];
   indexBound = 100;
   dbRequestInProgress = false;
+  timer = 250;
   async ngOnInit() {
     await this.initNameData();
     this.initFormsSub();
@@ -52,12 +56,24 @@ export class NameDataTable implements OnInit {
     this.orderByTotalOfUse();
   }
 
-  initFormsSub() {
+  async waitForInput() {
+    //Faire une sorte de systeme pour verifier s'il y a pas de timer en coure
+    timer(this.timer).subscribe(() => {
+      this.dbRequestInProgress = false;
+    });
+  }
+
+  async initFormsSub() {
     this.typeFormControl.valueChanges.subscribe((value) => {
-      this.searchName();
+      this.searchNames();
     });
     this.filterdNameFormControl.valueChanges.subscribe((value) => {
-      this.searchName();
+      if (!this.dbRequestInProgress) {
+        this.waitForInput();
+      }
+      this.dbRequestInProgress = true;
+      this.searchNames();
+      this.timer += 250;
     });
   }
   onViewEvent(nameData: NameData) {
@@ -65,7 +81,7 @@ export class NameDataTable implements OnInit {
   }
 
   get disableNextButton() {
-    return this.pageIndex + 1 >= Number(this.totalPage.toFixed());
+    return this.pageIndex + 1 <= Number(this.totalPage.toFixed());
   }
   get disablePreviousButton() {
     if (this.pageIndex > 0) {
@@ -111,10 +127,9 @@ export class NameDataTable implements OnInit {
     this.nameDatas = await this.localDbService.getNamesDatas();
   }
 
-  async searchName() {
+  async searchNames() {
     let type: null | NameType = null;
     let searchStr: null | string = null;
-    this.dbRequestInProgress = true;
 
     if (this.typeFormControl.value != null && this.typeFormControl.value != 'ALL') {
       type = this.typeFormControl.value as NameType;
@@ -125,7 +140,6 @@ export class NameDataTable implements OnInit {
     this.nameDatas = await this.localDbService.searchNameDatas(new SearchParams(searchStr, type));
     console.log(new SearchParams(searchStr, type));
     console.log(this.nameDatas);
-    this.dbRequestInProgress = false;
     this.setnameDataFromPageIndex(undefined, true);
   }
 

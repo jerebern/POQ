@@ -1,66 +1,113 @@
 <div class="flex justify-between my-2">
-   <button class="ml-2" matButton="filled" [disabled]="disablePreviousButton" (click)="setnameDataFromPageIndex('PREVIOUS')">
+  <button
+    class="ml-2"
+    matButton="filled"
+    [disabled]="disablePreviousButton"
+    (click)="setnameDataFromPageIndex('PREVIOUS')"
+  >
     Précédent <mat-icon matPrefix>keyboard_arrow_left</mat-icon>
   </button>
-  <label>{{this.pageIndex + 1}} / {{totalPage.toFixed()}}</label>
-  <button class="mr-2" matButton="filled" [disabled]="disableNextButton"   (click)="setnameDataFromPageIndex('NEXT')">
+  <label
+    >{{ this.pageIndex + 1 }} /
+    @if (!dbRequestInProgress) {
+      {{ totalPage.toFixed() }}
+    } @else {
+      ?
+    }
+  </label>
+  <button
+    class="mr-2"
+    matButton="filled"
+    [disabled]="disableNextButton"
+    (click)="setnameDataFromPageIndex('NEXT')"
+  >
     Suivant <mat-icon matSuffix>keyboard_arrow_right</mat-icon>
   </button>
 </div>
 <table>
   <thead>
     <tr>
-      <th mat-header-cell (click)="orderByType()" class="clickHeader bg-neutral-50 hover:bg-neutral-200 font-bold">
+      <th
+        mat-header-cell
+        (click)="orderByType()"
+        class="clickHeader bg-neutral-50 hover:bg-neutral-200 font-bold"
+      >
         Type
       </th>
-      <th mat-header-cell class="clickHeader bg-neutral-50 hover:bg-neutral-200 font-bold" (click)="orderByAlphabetical()">
+      <th
+        mat-header-cell
+        class="clickHeader bg-neutral-50 hover:bg-neutral-200 font-bold"
+        (click)="orderByAlphabetical()"
+      >
         Nom
       </th>
-      <th (click)="orderByTotalOfUse()" mat-header-cell class="clickHeader bg-neutral-50 hover:bg-neutral-200 font-bold">
+      <th
+        (click)="orderByTotalOfUse()"
+        mat-header-cell
+        class="clickHeader bg-neutral-50 hover:bg-neutral-200 font-bold"
+      >
         Utilisation
       </th>
-      <th mat-header-cell >
-        Détail
-      </th>
+      <th mat-header-cell>Détail</th>
     </tr>
-</thead>
-<tr>
-  <td>
-  <mat-form-field>
-    <mat-select [formControl]="typeFormControl">
-      <mat-option value="ALL">Tout</mat-option>
-      <mat-option value="HOMME">Homme</mat-option>
-      <mat-option value="FEMME">Femme</mat-option>
-    </mat-select>
-  </mat-form-field>
-  </td>
-  <td>
-    <mat-form-field>
-      <input matInput [formControl]="filterdNameFormControl">
-    </mat-form-field>
-  </td>
-</tr>
-
-
-@if(!dbRequestInProgress ){
-@for (item of filteredNoms; track $index) {
-  <tr app-name-data-row
-    [class]="grayBackground($index) + ' row'"
-    [nameData]="item"
-    (viewEvent)="onViewEvent($event)"
-  >
+  </thead>
+  <tr>
+    <td>
+      <mat-form-field>
+        <mat-select [formControl]="typeFormControl">
+          <mat-option value="ALL">Tout</mat-option>
+          <mat-option value="HOMME">Homme</mat-option>
+          <mat-option value="FEMME">Femme</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </td>
+    <td>
+      <mat-form-field>
+        <input matInput [formControl]="filterdNameFormControl" />
+      </mat-form-field>
+    </td>
   </tr>
-}
-}
 
+  @if (!dbRequestInProgress) {
+    @for (item of filteredNoms; track $index) {
+      <tr
+        app-name-data-row
+        [class]="grayBackground($index) + ' row'"
+        [nameData]="item"
+        (viewEvent)="onViewEvent($event)"
+      ></tr>
+    }
+  } @else {
+    <tr>
+      <td colspan="4">
+        <mat-progress-bar mode="query"></mat-progress-bar>
+      </td>
+    </tr>
+  }
 </table>
 
 <div class="flex justify-between my-2">
-    <button matButton="filled"  [disabled]="disablePreviousButton" (click)="setnameDataFromPageIndex('PREVIOUS')">Précédent
-      <mat-icon matPrefix>keyboard_arrow_left</mat-icon></button>
-  <label>{{this.pageIndex + 1}} </label>
-
-    <button matButton="filled" [disabled]="disableNextButton" (click)="setnameDataFromPageIndex('NEXT')">Suivant
-      <mat-icon matSuffix>keyboard_arrow_right</mat-icon>
-    </button>
+  <button
+    matButton="filled"
+    [disabled]="disablePreviousButton"
+    (click)="setnameDataFromPageIndex('PREVIOUS')"
+  >
+    Précédent <mat-icon matPrefix>keyboard_arrow_left</mat-icon>
+  </button>
+  <label
+    >{{ this.pageIndex + 1 }} /
+    @if (!dbRequestInProgress) {
+      {{ totalPage.toFixed() }}
+    } @else {
+      ?
+    }
+  </label>
+  <button
+    matButton="filled"
+    [disabled]="disableNextButton"
+    (click)="setnameDataFromPageIndex('NEXT')"
+  >
+    Suivant
+    <mat-icon matSuffix>keyboard_arrow_right</mat-icon>
+  </button>
 </div>

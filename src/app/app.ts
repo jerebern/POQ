@@ -6,151 +6,153 @@ import { NameData } from './objects/name-data';
 import { NameDataTable } from './name-data-table/name-data-table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
-import {MatTooltipModule} from '@angular/material/tooltip';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
-import { NameDataView } from "./name-data-view/name-data-view";
-import { MatButtonModule } from "@angular/material/button";
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { NameDataView } from './name-data-view/name-data-view';
+import { MatButtonModule } from '@angular/material/button';
 import { FormControl } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';import {
-  MatDialog,
-} from '@angular/material/dialog';
+import { MatInputModule } from '@angular/material/input';
+import { MatDialog } from '@angular/material/dialog';
 import { NameSearchDialog } from './name-search-dialog/name-search-dialog';
 import { LocalDbService } from './services/local-db-service';
 import { LocalStorageService } from './services/local-storage-service';
-import {MatToolbarModule} from '@angular/material/toolbar';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { donneeQuebecRessourceStore } from './objects/donneeQuebecRessourceStore';
 import { DisclamerDialog } from './disclamer-dialog/disclamer-dialog';
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, NameDataTable, MatTabsModule, MatIconModule, MatProgressBarModule, NameDataView, MatButtonModule, MatFormFieldModule, MatInputModule, MatToolbarModule, MatTooltipModule],
+  imports: [
+    RouterOutlet,
+    NameDataTable,
+    MatTabsModule,
+    MatIconModule,
+    MatProgressBarModule,
+    NameDataView,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatToolbarModule,
+    MatTooltipModule,
+  ],
   templateUrl: './app.html',
   styleUrl: './app.scss',
-  providers:[]
+  providers: [],
 })
 export class App implements OnInit {
   constructor(
-    private donneesQuebecApiRequestService : DonneesQuebecApiRquest,
-    private localDbService : LocalDbService,
-    public localStorageService : LocalStorageService,
-  ){}
+    private donneesQuebecApiRequestService: DonneesQuebecApiRquest,
+    private localDbService: LocalDbService,
+    public localStorageService: LocalStorageService,
+  ) {}
 
   protected readonly title = signal('Prénom Québec');
   readonly dialog = inject(MatDialog);
-  openedNameDataTabs : NameData[] = []
-  nameData : NameData[] = []
-  selectedTab = new FormControl(0)
-  dataSourceStr : string = ""
-  lastUpdate : string = ""
-  requestInProgress : boolean = false;
+  openedNameDataTabs: NameData[] = [];
+  nameData: NameData[] = [];
+  selectedTab = new FormControl(0);
+  dataSourceStr: string = '';
+  lastUpdate: string = '';
+  requestInProgress: boolean = false;
 
   async ngOnInit() {
-    if(this.disclamerValue == null){
-    await this.openDisclamer()
+    if (this.disclamerValue == null) {
+      await this.openDisclamer();
     }
-    this.validateCache()
+    this.validateCache();
   }
 
-  validateCache(){
-    if(this.localStorageService.validateWebDataBase()){
-      this.getNameDataFromLocal()
-    }
-    else{
-      this.getNameDataFromDonneeQuebecApi()
-    }
-  }
-
-  get disclamerValue(){
-    return this.localStorageService.getDisclamer()
-  }
-
-  async openDisclamer(){
-    let dialog = this.dialog.open(DisclamerDialog, {disableClose:true})
-    if(await lastValueFrom(dialog.afterClosed())){
-      this.localStorageService.setDisclamer()
-    }
-    else{
-      window.location.href = "http://www.google.ca"
+  validateCache() {
+    if (this.localStorageService.validateWebDataBase()) {
+      this.getNameDataFromLocal();
+    } else {
+      this.getNameDataFromDonneeQuebecApi();
     }
   }
 
-removeTab(nameData: NameData) {
-  this.openedNameDataTabs.splice(this.openedNameDataTabs.findIndex(
-    (element) => element == nameData),1)
-}
-
-
-  findAlreadyOpenTab(nameData : NameData){
-   return Boolean(this.openedNameDataTabs.find(
-      (element)=> element == nameData));
+  get disclamerValue() {
+    return this.localStorageService.getDisclamer();
   }
 
-  openNewTab(nameData ?: NameData){
-   if(nameData){
-    if( !this.findAlreadyOpenTab(nameData)){
-      this.openedNameDataTabs.push(nameData)
+  async openDisclamer() {
+    let dialog = this.dialog.open(DisclamerDialog, { disableClose: true });
+    if (await lastValueFrom(dialog.afterClosed())) {
+      this.localStorageService.setDisclamer();
+    } else {
+      window.location.href = 'http://www.google.ca';
     }
-    this.selectedTab.setValue((this.openedNameDataTabs.findIndex(
-    (element) => element == nameData)+1)
+  }
 
-    )
-   }
+  removeTab(nameData: NameData) {
+    this.openedNameDataTabs.splice(
+      this.openedNameDataTabs.findIndex((element) => element == nameData),
+      1,
+    );
+  }
 
+  findAlreadyOpenTab(nameData: NameData) {
+    return Boolean(this.openedNameDataTabs.find((element) => element == nameData));
+  }
+
+  openNewTab(nameData?: NameData) {
+    if (nameData) {
+      if (!this.findAlreadyOpenTab(nameData)) {
+        this.openedNameDataTabs.push(nameData);
+      }
+      this.selectedTab.setValue(
+        this.openedNameDataTabs.findIndex((element) => element == nameData) + 1,
+      );
+    }
   }
 
   refreshClick() {
-    this.getNameDataFromDonneeQuebecApi()
+    this.getNameDataFromDonneeQuebecApi();
   }
 
-
-
-  async getNameDataFromDonneeQuebecApi(){
+  async getNameDataFromDonneeQuebecApi() {
     this.requestInProgress = true;
-    this.nameData =[]
+    this.nameData = [];
     let success = true;
-    this.dataSourceStr = "Récupérations des données à https://www.donneesquebec.ca/"
+    this.dataSourceStr = 'Récupérations des données à https://www.donneesquebec.ca/';
     try {
-        await this.donneesQuebecApiRequestService.refreshData(donneeQuebecRessourceStore.prenomHomme,true)
+      await this.donneesQuebecApiRequestService.refreshData(
+        donneeQuebecRessourceStore.prenomHomme,
+        true,
+      );
     } catch (error) {
-      console.log(error)
+      console.error(error);
 
-        success = false;
-    }
-    try{
-      await this.donneesQuebecApiRequestService.refreshData(donneeQuebecRessourceStore.prenomFemme,false )
-
-    }
-    catch (error){
-      console.log(error)
       success = false;
     }
-    if(success){
-    this.localStorageService.setLastWebdataBaseUpdate()
-      try{
-        await this.getNameDataFromLocal()
-      }
-      catch{
-        console.error("Erreur Avec la Base de données")
-       this.localStorageService.clearLocalStorage()
-      }
+    try {
+      await this.donneesQuebecApiRequestService.refreshData(
+        donneeQuebecRessourceStore.prenomFemme,
+        false,
+      );
+    } catch (error) {
+      console.log(error);
+      success = false;
     }
-    else{
-      this.dataSourceStr = "Erreur avec https://www.donneesquebec.ca/"
+    if (success) {
+      this.localStorageService.setLastWebdataBaseUpdate();
+      try {
+        await this.getNameDataFromLocal();
+      } catch {
+        console.error('Erreur Avec la Base de données');
+        this.localStorageService.clearLocalStorage();
+      }
+    } else {
+      this.dataSourceStr = 'Erreur avec https://www.donneesquebec.ca/';
     }
-     this.requestInProgress = false;
+    this.requestInProgress = false;
   }
 
-  async getNameDataFromLocal(){
-    this.dataSourceStr = "Récupérations des données en local"
-    this.nameData = await this.localDbService.getNamesDatas()
+  async getNameDataFromLocal() {
+    this.dataSourceStr = 'Récupérations des données en local';
+    this.nameData = await this.localDbService.getNamesDatas();
   }
- async  openSearchDialog(){
-   let dialog = this.dialog.open(NameSearchDialog,{data:
-      this.nameData,
-      width : "30%"
-    }
-   )
-  this.openNewTab(await lastValueFrom(dialog.afterClosed()))
+  async openSearchDialog() {
+    let dialog = this.dialog.open(NameSearchDialog, { data: this.nameData, width: '30%' });
+    this.openNewTab(await lastValueFrom(dialog.afterClosed()));
   }
-
 }
