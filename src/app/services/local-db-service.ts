@@ -21,20 +21,16 @@ export class LocalDbService {
   }
 
   async searchNameDatas(searchParams: SearchParams): Promise<NameData[]> {
-    console.log(searchParams);
-    let limit = 1000;
     if (searchParams.SearchName && searchParams.NameType) {
       return this.dbService.namesDatas
         .where('name')
         .startsWithIgnoreCase(searchParams.SearchName)
         .filter((nameData) => nameData.nameType == searchParams.NameType)
-        .limit(limit)
         .toArray();
     } else if (searchParams.SearchName) {
       return this.dbService.namesDatas
         .where('name')
         .startsWithIgnoreCase(searchParams.SearchName)
-        .limit(limit)
         .toArray();
     } else if (searchParams.NameType) {
       return this.dbService.namesDatas.where('nameType').equals(searchParams.NameType).toArray();

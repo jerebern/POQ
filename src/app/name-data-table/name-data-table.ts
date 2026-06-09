@@ -14,7 +14,7 @@ import replaceSpecialCharacters from 'replace-special-characters';
 import { LocalDbService } from '../services/local-db-service';
 import { SearchParams } from '../../enum/search-params';
 import { MatProgressBar } from '@angular/material/progress-bar';
-import { Observable, timer } from 'rxjs';
+import { debounceTime, distinctUntilChanged, Observable, Subject, timer } from 'rxjs';
 
 @Component({
   selector: 'app-name-data-table',
@@ -34,7 +34,7 @@ import { Observable, timer } from 'rxjs';
   styleUrl: './name-data-table.scss',
 })
 export class NameDataTable implements OnInit {
-  constructor(private localDbService: LocalDbService) { }
+  constructor(private localDbService: LocalDbService) {}
   nameDatas: NameData[] = []; //TODO COMPORTEMENT ICI A REFACTORISER
   @Output() viewEvent = new EventEmitter<NameData>();
   orderType: boolean = false;
@@ -43,48 +43,44 @@ export class NameDataTable implements OnInit {
   filteredNoms: NameData[] = [];
   nameDataArrayIndex: number = 0;
   pageIndex: number = 0;
-  typeFormControl = new FormControl('ALL');
+  typeFormControl = new FormControl();
   filterdNameFormControl = new FormControl();
   selectedFilters: TableFilterType[] = [];
   indexBound = 100;
-  dbRequestInProgress = false;
-  defaultTimer = 1000
-  timer = 0;
-  currentTimer: Observable<0> | null = null;
+  dbRequestInProgress = true;
+  private searchSubject = new Subject<string>();
 
   async ngOnInit() {
     await this.initNameData();
+    this.initForm();
     this.initFormsSub();
     this.setnameDataFromPageIndex();
     this.orderByTotalOfUse();
+    this.dbRequestInProgress = false;
   }
 
-  initTimer() {
-    this.timer = Number(this.defaultTimer);
-
-  }
-
-  async waitForInput() {
-    //Faire une sorte de systeme pour verifier s'il y a pas de timer en coure
-    timer(this.timer).subscribe(
-      end => {
-        console.log(end)
-        this.searchNames();
-
-      });
+  initForm() {
+    this.typeFormControl.setValue('ALL');
   }
 
   initFormsSub() {
     this.typeFormControl.valueChanges.subscribe((value) => {
-      this.searchNames();
-    });
-    this.filterdNameFormControl.valueChanges.subscribe((value) => {
-      if (!this.dbRequestInProgress) {
-        this.initTimer()
-        this.waitForInput();
-      }
       this.dbRequestInProgress = true;
-      this.timer += 3000;
+      this.typeFormControl.disable();
+      this.searchSubject.next(value);
+    });
+    this.searchSubject
+      .pipe(
+        debounceTime(600), // attend 600ms après le dernier keystroke
+        distinctUntilChanged(), // ignore si la valeur n'a pas changé
+      )
+      .subscribe(() => {
+        this.searchNames();
+      });
+
+    this.filterdNameFormControl.valueChanges.subscribe((value) => {
+      this.dbRequestInProgress = true;
+      this.searchSubject.next(value);
     });
   }
   onViewEvent(nameData: NameData) {
@@ -92,17 +88,23 @@ export class NameDataTable implements OnInit {
   }
 
   get disableNextButton() {
-    return !(this.pageIndex + 1 < Number(this.totalPage));
+    if (this.dbRequestInProgress) {
+      return true;
+    }
+    return (this.pageIndex + 1) * this.indexBound >= this.nameDatas.length;
   }
   get disablePreviousButton() {
+    if (this.dbRequestInProgress) {
+      return true;
+    }
     if (this.pageIndex > 0) {
       return false;
     }
     return true;
   }
 
-  get totalPage() {
-    return Number(this.nameDatas.length / this.indexBound + 1);
+  get totalPage(): number {
+    return Math.ceil(this.nameDatas.length / this.indexBound);
   }
 
   setnameDataFromPageIndex(action?: string, resetPageIndex?: boolean) {
@@ -151,8 +153,6 @@ export class NameDataTable implements OnInit {
     this.nameDatas = await this.localDbService.searchNameDatas(new SearchParams(searchStr, type));
     this.setnameDataFromPageIndex(undefined, true);
     this.dbRequestInProgress = false;
-
-
   }
 
   async orderByTotalOfUse() {
@@ -175,26 +175,36 @@ export class NameDataTable implements OnInit {
   }
 
   orderByAlphabetical() {
-    this.nameDatas.sort((a, b) => {
-      if (!this.alphabeticalOrderName) {
-        return this.compareStringAlphabetical(a.name!.toUpperCase(), b.name!.toUpperCase());
-      } else {
-        return this.compareStringAlphabetical(b.name!.toUpperCase(), a.name!.toUpperCase());
-      }
-    });
-    this.alphabeticalOrderName = !this.alphabeticalOrderName;
-    this.setnameDataFromPageIndex(undefined, true);
+    if (!this.dbRequestInProgress) {
+      this.nameDatas.sort((a, b) => {
+        if (!this.alphabeticalOrderName) {
+          return this.compareStringAlphabetical(a.name!.toUpperCase(), b.name!.toUpperCase());
+        } else {
+          return this.compareStringAlphabetical(b.name!.toUpperCase(), a.name!.toUpperCase());
+        }
+      });
+      this.alphabeticalOrderName = !this.alphabeticalOrderName;
+      this.setnameDataFromPageIndex(undefined, true);
+    }
   }
   orderByType() {
-    this.nameDatas.sort((a, b) => {
-      if (!this.orderType) {
-        return this.compareStringAlphabetical(a.nameType!.toUpperCase(), b.nameType!.toUpperCase());
-      } else {
-        return this.compareStringAlphabetical(b.nameType!.toUpperCase(), a.nameType!.toUpperCase());
-      }
-    });
-    this.orderType = !this.orderType;
-    this.setnameDataFromPageIndex();
+    if (!this.dbRequestInProgress) {
+      this.nameDatas.sort((a, b) => {
+        if (!this.orderType) {
+          return this.compareStringAlphabetical(
+            a.nameType!.toUpperCase(),
+            b.nameType!.toUpperCase(),
+          );
+        } else {
+          return this.compareStringAlphabetical(
+            b.nameType!.toUpperCase(),
+            a.nameType!.toUpperCase(),
+          );
+        }
+      });
+      this.orderType = !this.orderType;
+      this.setnameDataFromPageIndex();
+    }
   }
   grayBackground(rowIndex: number) {
     if (rowIndex % 2 == 1) {

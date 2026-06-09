@@ -43,6 +43,7 @@
       </th>
       <th
         (click)="orderByTotalOfUse()"
+
         mat-header-cell
         class="clickHeader bg-neutral-50 hover:bg-neutral-200 font-bold"
       >
@@ -54,7 +55,9 @@
   <tr>
     <td>
       <mat-form-field>
-        <mat-select [formControl]="typeFormControl">
+        <mat-select [formControl]="typeFormControl"
+        [disabled]="dbRequestInProgress"
+        >
           <mat-option value="ALL">Tout</mat-option>
           <mat-option value="HOMME">Homme</mat-option>
           <mat-option value="FEMME">Femme</mat-option>
