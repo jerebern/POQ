@@ -5,6 +5,7 @@ import { lastValueFrom } from 'rxjs';
 import { LocalDbService } from './local-db-service';
 import { NameData } from '../objects/name-data';
 import { NameType } from '../../enum/nameType';
+import { Year } from '../objects/year';
 
 @Injectable({
   providedIn: 'root'
@@ -44,16 +45,11 @@ export class DonneesQuebecApiRquest {
     let data : NameData[] = []
       for(let row of quebecData.result.records){
         let totalUse : number = 0
-        data.push({
-          years:[],
-          name:row["PRENOM"],
-          nameType :  nameType,
-          totalUse : 0
-        })
+        let years : Year[] = [];
         Object.keys(row).forEach(key=>{
           if(key.length == 4){
             let value = this.extractValue(row[key])
-            data[data.length-1].years.push({
+            years.push({
               digits:key,
               value:value
             })
@@ -61,6 +57,13 @@ export class DonneesQuebecApiRquest {
           }
 
         })
+        data.push({
+          years:JSON.stringify(years),
+          name:row["PRENOM"],
+          nameType :  nameType,
+          totalUse : 0
+        })
+
           data[data.length-1].totalUse = totalUse
       }
       return data

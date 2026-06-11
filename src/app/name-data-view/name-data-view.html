@@ -1,29 +1,30 @@
-@if(nameData != null && chartOption){
+@if (nameData != null && chartOption) {
+  <div echarts [options]="chartOption"></div>
 
-<div echarts [options]="chartOption"></div>
-
-<mat-accordion>
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title class="font-bold">Information années</mat-panel-title>
-      <mat-panel-description>
-      </mat-panel-description>
-    </mat-expansion-panel-header>
-    <table>
-      <th class="bg-neutral-50 hover:bg-neutral-200 font-bold"  (click)="orderByYear()"> Année</th>
-      <th class="bg-neutral-50 hover:bg-neutral-200 font-bold" (click)="orderByUse()">Utilisation</th>
-      @for (item of nameData.years; track $index) {
-        <tr [class]="grayBackground($index)">
-         <td>
-            {{item.digits}}
-         </td>
-         <td> {{item.value}}</td>
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title class="font-bold">Information années</mat-panel-title>
+        <mat-panel-description> </mat-panel-description>
+      </mat-expansion-panel-header>
+      <table>
+        <th class="bg-neutral-50 hover:bg-neutral-200 font-bold" (click)="orderByYear()">Année</th>
+        <th class="bg-neutral-50 hover:bg-neutral-200 font-bold" (click)="orderByUse()">
+          Utilisation
+        </th>
+        @for (item of years; track $index) {
+          <tr [class]="grayBackground($index)">
+            <td>
+              {{ item.digits }}
+            </td>
+            <td>{{ item.value }}</td>
+          </tr>
         }
         <tr class="font-bold">
-          <td> Total </td>
-          <td> {{nameData.totalUse}}</td>
+          <td>Total</td>
+          <td>{{ nameData.totalUse }}</td>
         </tr>
-    </table>
-  </mat-expansion-panel>
-</mat-accordion>
+      </table>
+    </mat-expansion-panel>
+  </mat-accordion>
 }
